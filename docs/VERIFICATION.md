@@ -67,7 +67,7 @@ Be explicit about this when you present the work.
 1. **The RPG Maker MV editor was not opened.** Everything here is about the runtime. The project has not been opened and re-saved by MV 1.6.1 in this session, so if some editor-level problem exists (a plugin parameter edit, a tileset assignment), it has not been seen.
 2. **The natural walking route to Dad was not played.** The test set the `VisitedGrave` switch directly and jumped into the flashback, mirroring exactly what Dad's event does, but the intervening walk, the headstone interaction, the flower and old-grave inspections, Mom's call, and the four side characters were not exercised by input.
 3. **The menu was not opened.** `Esc` was never pressed in the test, and the menu is forbidden during the opening and allowed afterwards, so this has not been seen either way.
-4. **The two known gaps are still present** and were observed to be present, not fixed: the flashback still plays two screen shakes and two `RM_KnockHard` sounds, and the system language is still `zh_CN`, so system text is Chinese. See [ENHANCEMENT_REVIEW.md](ENHANCEMENT_REVIEW.md) for the full list.
+4. **The two known gaps are still present** and were observed to be present, not fixed: the flashback still plays two screen shakes and two `RM_KnockHard` sounds, and the system language is still `zh_CN`, so system text is Chinese. The full list is in the README section “Build state”.
 5. **Only Chrome, only desktop.** Safari and Firefox were not tested. Safari is the one to watch, because it needs the `.m4a` audio rather than the `.ogg`.
 6. **No local playtest by a human.** This is an automated run with no audio verification.
 

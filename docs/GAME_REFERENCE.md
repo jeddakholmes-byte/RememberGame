@@ -47,10 +47,10 @@ Everything below is derived from `game/data/Map001.json`, `Map002.json`, `System
 | 14 | `Ambience` | (0,0) | **Parallel** | The sound bed: waits ~15 s, plays `RM_WindGust`; waits ~20 s, `RM_CrowCaw`; waits ~25 s, `RM_WindGust`. Loops once switch 1 is ON. | p1 empty, p2 parallel loop |
 | 15 | `Bench_RelicBox` | (4,13) | Action button | Second approach tile for the bench. Same text as event 9. | p1 |
 | 16 | `OldGrave_3` | (5,4) | Action button | "There is nothing here." Counts the grave. | p1 |
-| 17 | `OldGrave_4` | (18,4) | Action button | "This grave… It seems to be abondoned a long time ago." Counts the grave. **The typo `abondoned` is in the shipped text** — the enhancement pass flags it (03 §六 fixes two grave lines), but it is still in `game/`. | p1 |
+| 17 | `OldGrave_4` | (18,4) | Action button | "This grave… It seems to be abondoned a long time ago." Counts the grave. **The typo `abondoned` is in the shipped text** — the planned polish pass fixes it, but it is still in `game/`. | p1 |
 | 18 | `WhiteFlowers` | (13,6) | Action button | Second flower cluster. Identical to event 5 and shares switch 8. | p1 |
 | 19 | `OldGrave_2` | (18,10) | Action button | "I can barely read the name on it." Counts the grave. | p1 |
-| 20 | `Grandpa` | (16,7) | Action button | Added in the enhancement pass. Sprite `$RM_Grandpa`, facing left, face `RM_Face_Grandpa` frame 6, one narration line: "Grandpa is standing very still." No switch. | p1 |
+| 20 | `Grandpa` | (16,7) | Action button | Added during the character pass. Sprite `$RM_Grandpa`, facing left, face `RM_Face_Grandpa` index 6, one narration line: "Grandpa is standing very still." No switch. | p1 |
 
 Two pairs are deliberate duplicates so Grace can interact from either side: events 4/13 (headstone) and 9/15 (bench). If you change one, change its twin.
 
@@ -87,7 +87,7 @@ Runs as one continuous autorun:
 9. Fade BGM and BGS, stop SE, wait, Dad steps away with `RM_Step1`, fade out.
 10. Switch 3 OFF, switch 4 ON, transfer back to Map 1 at (13,7).
 
-Steps 6 and 7 — the two shakes and the two hard knocks — are exactly what the enhancement pass (`enhancement/02_闪回与结尾逐步修改.md`) asks you to delete. They are still here.
+Steps 6 and 7 — the two screen shakes and the two hard knocks — are the ones the planned polish pass removes. They are still here.
 
 ### 4.2 `AfterFlashback_EndAct` (Map 1, event 10, page 2)
 
@@ -156,7 +156,7 @@ Minimum path: headstone → Dad. Everything else is texture.
 | Grandpa | `RM_Face_Grandpa` | 1 |
 | Narrator (no face) | — | 4 |
 
-The complete in-game text, in order, is listed in [ACT1_SCRIPT.md](ACT1_SCRIPT.md). That file is generated from the map data, so it is the truth about what the player actually reads.
+The complete in-game text, in order, is listed in [../script/ACT1_SCRIPT.md](../script/ACT1_SCRIPT.md). That file is generated from the map data, so it is the truth about what the player actually reads.
 
 Grace's lines use the colour code `\C[4]`, Mom `\C[6]`, Dad `\C[1]`, Grandma `\C[5]`, Uncle James `\C[3]`, and narration `\C[7]`. The name tag is a separate line, written as `\C[4]GRACE\C[0]`.
 

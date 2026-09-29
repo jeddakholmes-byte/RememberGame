@@ -15,13 +15,14 @@ Legend for the **Edit?** column:
 
 | Path | What it is | Edit? |
 |---|---|---|
-| `README.md` | Front page: what the game is, how to play, current build state, credits. | yes |
+| `README.md` | Front page: what the game is, who should read what, how to play, current build state, credits. | yes |
 | `index.html` | The landing page. A "Play Act I" portal that links into `game/`. Not part of the game itself. | yes |
 | `.nojekyll` | Empty marker file. Tells GitHub Pages to serve the folder as-is instead of running the Jekyll build. Deleting it makes Pages skip folders beginning with `_` and can break the site. | no |
 | `.gitignore` | Keeps macOS junk (`.DS_Store`, `._*`) out of the repo. | yes |
-| `docs/` | All written documentation. See §7. | yes |
+| `art/` | Everything the artist needs: the asset spec, the auto-generated spec sheets, and the inbox for new artwork. See §7. | yes |
+| `script/` | Everything the writer needs: the writing guide, the exported Act I text, and the draft area. See §7. | yes |
+| `docs/` | Technical and operational reference. See §7. | yes |
 | `game/` | The game. A complete RPG Maker MV 1.6.1 project. See §2–§6. | — |
-| `enhancement/` | The 2026-09-29 enhancement package: the instructions, the new art and the patched data for the polish pass. **Not part of the game, not loaded by it.** See §8. | yes |
 
 ---
 
@@ -119,7 +120,7 @@ RPG Maker MV assets are all plain PNG on a fixed grid. **The most common way to 
 | `titles2/` | 2 | Title foreground overlays. Unused. | — | 816 × 624 |
 | `parallaxes/` | 17 | The two background images that *are* the maps. | `!RM_Cemetery.png`, `!RM_House.png` | 1152 × 864, free-form; the `!` prefix means "do not tile" |
 | `pictures/` | 2 | Full-screen images shown by the Show Picture command. | `RM_Gravestone.png` (the headstone close-up), `RM_Box.png` (the relic box) | 816 × 624 |
-| `characters/` | 34 | Walk sprites. | `$RM_Grace`, `$RM_Aunt`, `$RM_Grandpa`, `$RM_UncleJames`, `RM_Family` | 144 × 192 for the four `$`-prefixed ones (3 columns × 4 rows of 48 × 48); `RM_Family.png` is 576 × 384 (3 × 4 of 192 × 96). **The `$` prefix means "one character, not eight". Removing it makes the sprite huge and wrong.** |
+| `characters/` | 34 | Walk sprites. | `$RM_Grace`, `$RM_Aunt`, `$RM_Grandpa`, `$RM_UncleJames`, `RM_Family` | Two layouts. A `$`-prefixed file holds **one** character: 3 columns × 4 rows of 48 × 48, so 144 × 192. A file without `$` holds **eight**: four character blocks across by two down, each block 144 × 192, so 576 × 384 — `RM_Family.png` is one of those, and the event's character index 0–7 picks the block. **Dropping the `$` makes MV read a single sprite as eight and render one corner of the wrong block.** |
 | `faces/` | 17 | Portrait sheets shown at the left of the message box. | `RM_Face_Grace`, `_Mom`, `_Dad`, `_Grandma`, `_Grandpa`, `_Aunt`, `_UncleJames` | 576 × 288 = 4 columns × 2 rows of 144 × 144, so 8 faces per sheet, **index 0–7**. Sheet `RM_Face_Grace` is 576×288 but sits inside the box at 144×144. |
 | `system/` | 14 | The interface skin: `Window.png` (the 9-slice message/menu window), `IconSet.png`, `Balloon.png`, `ButtonSet.png`, `Loading.png`, `MadeWithMv.png`, `GameOver.png`, `Shadow1/2.png`, `Damage.png`, `States.png`, `Weapons1–3.png`. | none | Several have strict sizes; `Window.png` is 192 × 192 |
 | `tilesets/` | 64 | Tile sheets. | `RM_Collision_A5.png` (384 × 768, holds the walkable/blocked markers), `RM_Empty_B.png` (768 × 768, deliberately blank) | 48 × 48 per tile; B–E sheets are 768 × 768 = 16 × 16 |
@@ -144,55 +145,52 @@ Two formats exist for every track: `.ogg` (used by desktop and Firefox/Chrome) a
 
 Note the asymmetry: `RM_Rain` is a **BGS** (looping ambience) and `RM_Room` likewise; the four `RM_*` in `bgm/` are music. Getting the folder wrong means the sound silently never plays.
 
-`RM_Heartbeat` and `RM_KnockHard` are used only by the flashback. They are the two sounds the enhancement pass wants removed.
+`RM_Heartbeat` and `RM_KnockHard` are used only by the flashback. They are the two sounds the planned polish pass removes.
 
 ---
 
-## 7. `docs/`
+## 7. `art/`, `script/` and `docs/`
+
+### `art/` — for the artist
+
+| File | What it is |
+|---|---|
+| `README.md` | The asset specification: where each kind of asset lives, the exact pixel size and grid, the naming rules, the current asset list, the delivery process, and a checklist. **Written in Chinese, because its reader is the artist.** |
+| `specs/grid_rules.png` | A schematic of the two grid rules. |
+| `specs/faces_<character>.png` | One real contact sheet per face set, 8 cells with their indices. Green border = the expression the script currently uses; grey = drawn but unused. Regenerate if the art changes. |
+| `specs/sprites_<character>.png` | One annotated contact sheet per walk sheet: 3 × 4 cells, rows labelled down/left/right/up, middle column marked as the standing frame. |
+| `incoming/` | The inbox. New artwork goes here first, not straight into `game/`. Its README states the delivery naming. |
+
+### `script/` — for the writer
+
+| File | What it is |
+|---|---|
+| `README.md` | The writing guide: how a line is built, the 4-line box limit, the 40-character line limit, the colour codes, the face indices, the character voices, a copyable template, and a checklist. **Written in Chinese.** |
+| `ACT1_SCRIPT.md` | The complete in-game text of Act I, exported from the map data. Read-only reference — editing it does not change the game. |
+| `drafts/` | New script drafts, one scene per file. Its README shows how to propose a change to an existing line. |
+
+### `docs/` — technical and operational
 
 | File | What it is |
 |---|---|
 | `FILE_GUIDE.md` | This document. |
 | `GAME_REFERENCE.md` | Maps, every event with its trigger and purpose, the switch table, a walkthrough, and where each line of dialogue lives. The file to read before changing any event. |
-| `LOCAL_SETUP.md` | How to run the game on your own machine, how to open it in the MV editor, and the mistakes that waste an afternoon. |
-| `DEPLOY.md` | How the GitHub Pages site was published and how to ship an update. |
-| `ENHANCEMENT_REVIEW.md` | A review of `enhancement/`: what it asks for, what has already been applied to `game/`, what has not, and the traps in its own instructions. |
+| `DEPLOY.md` | How to add files, commit, and publish. |
+| `VERIFICATION.md` | The browser playthrough that was run before publishing, and — just as important — the list of things that were *not* tested. |
+| `screenshots/` | Frames captured during that playthrough, used on the landing page and for reference. |
 
 ---
 
-## 8. `enhancement/` — the 2026-09-29 package
-
-Produced on 2026-09-29. It never modified the original project; it delivers instructions plus files. **Nothing here is loaded by the game.** It is kept in the repo so the team can finish the polish pass.
-
-| Path | What it is |
-|---|---|
-| `00_从这里开始.md` | Start here. Master index, the two possible workflows (manual edit vs. drop-in data patch), and the delivery status. |
-| `01_人物素材导入.md` | How to wire in Uncle James, Aunt and Grandpa: which sprite, which face index, which map position. |
-| `02_闪回与结尾逐步修改.md` | The flashback and ending rewrite: switch renaming, Dad's transfer, staging, and the full FlashbackController rebuild. Also the riskiest steps. |
-| `03_游玩体验逐项设置.md` | Volume, menu access, the CONTROLS card, the Mom hint gating, the shared flower switch, the two grave-text fixes, enabling `RM_Act1_Experience`, the `<RMHint:>` table, title BGM volume, UI term translation. |
-| `04_更换英文字体.md` | Why the font kept falling back to a CJK face, and two ways to fix it. |
-| `05_另一台电脑验收与排错.md` | A 16-item acceptance checklist plus a symptom → cause table. |
-| `06_事件指令对照.md` | Machine-generated readable listing of the modified events. A reference to read, **not** something you can paste into MV. |
-| `CHANGELOG_EN.md` | One-page English summary of the whole enhancement. |
-| `教程_纯文本.txt` | 00–06 concatenated as plain text for readers without a Markdown viewer. |
-| `assets/` | The new art to merge in: 3 walk sheets, 3 face sheets, 2 plugin JS files, and the corrected `gamefont.css`. |
-| `patch_data/` | Revised `Map001.json`, `Map002.json`, `System.json`, `Actors.json`. **Only safe to import wholesale into an untouched project.** |
-| `generation/` | The raw AI-generated portrait images, the prompts used, and a custom-font CSS example. Reference only. |
-| `review/` | The checking records: bounding boxes, 514 static checks, a browser playthrough log, SHA-256 fingerprints of every source file, and screenshots. **These are historical evidence, not proof that the final revision was verified.** |
-| `tools/` | The Python/Node scripts used to build and check the package. You do not need to run them. |
-
----
-
-## 9. Things that are easy to get wrong
+## 8. Things that are easy to get wrong
 
 | Trap | Why it matters |
 |---|---|
 | Renaming a file under `img/` or `audio/` | Every reference lives in `data/*.json` as a bare string. Rename the file and the game silently shows nothing / plays nothing. |
-| Removing the `$` from a character sprite | `$` means "this sheet holds one character". Without it MV reads a 3 × 4 grid of eight characters and renders a corner of the wrong one. |
+| Removing the `$` from a character sprite | `$` means "this sheet holds one character". Without it MV reads the file as an eight-character sheet and renders a corner of the wrong block. |
 | Removing the `!` from a parallax | `!` means "do not tile". Without it the background repeats. |
 | Editing a map while a save exists | Old saves restore old switch states. **Always test from New Game.** |
-| Adding a `README.md` inside `game/` | Fine for GitHub, but it will show up in the MV editor's project folder. Keep repo documentation in `docs/`. |
-| Copying `patch_data/*` over `game/data/*` | It replaces the maps *and* the system settings wholesale. Only safe on a project that has not been touched since 2026-09-29. |
+| Adding a `README.md` inside `game/` | Fine for GitHub, but it will show up in the MV editor's project folder. Keep repository documentation outside `game/`. |
+| Editing a map by hand in `data/*.json` while the MV editor is open | The editor holds the map in memory and overwrites your edit on save. Edit through the editor, or close it first. |
 | Moving or renaming `game/` | It is the GitHub Pages entry point. The published URL would change. |
 | Deleting `movies/` or `save/` | MV expects both to exist. |
 | Deleting the unused RTP assets to shrink the repo | Tempting — 400 MB is mostly unused battle art and ambience. But they are the pooled library the MV editor offers in every dropdown, so removing them removes choices from whoever edits next. Trim only in a throwaway copy, never in this one. |

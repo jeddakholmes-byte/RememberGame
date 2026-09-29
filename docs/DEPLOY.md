@@ -11,7 +11,7 @@ There is nothing to build. RPG Maker MV projects are static HTML5, GitHub Pages 
 | | |
 |---|---|
 | Repository | `jeddakholmes-byte/RememberGame`, **public**, default branch `main` |
-| Contents | `README.md`, `index.html`, `docs/`, `game/` (the MV project), `enhancement/` — 1238 files, 436 MB |
+| Contents | `README.md`, `index.html`, `art/`, `script/`, `docs/`, `game/` (the MV project) |
 | Pages | **enabled**, source = branch `main`, folder `/ (root)` |
 | Live URL | <https://jeddakholmes-byte.github.io/RememberGame/> |
 | Game URL | <https://jeddakholmes-byte.github.io/RememberGame/game/> |
@@ -36,7 +36,7 @@ git remote add origin https://github.com/jeddakholmes-byte/RememberGame.git
 git push -u origin main
 ```
 
-The push is roughly 440 MB (1169 files in `game/`, 53 in `enhancement/`). Expect a few minutes on a slow connection. It is a one-time cost — later commits only send what changed.
+The initial push was about 440 MB, almost all of it `game/`. Expect a few minutes on a slow connection. It is a one-time cost — later commits only send what changed.
 
 ---
 
@@ -53,7 +53,7 @@ If you ever need to re-create this repository, this is the whole procedure.
    git config --global user.email "your@email.com"
    ```
 3. **Authenticate.** GitHub stopped accepting account passwords for Git. Create a **fine-grained personal access token** at <https://github.com/settings/tokens> with *Repository access → RememberGame* and *Contents: Read and write*. When `git push` asks for a password, paste the token. macOS will remember it in the Keychain.
-4. **Get the files.** Either `git clone https://github.com/jeddakholmes-byte/RememberGame.git`, or build the folder yourself: copy the RPG Maker MV project to `game/`, the enhancement package to `enhancement/`, and the documents to `docs/`.
+4. **Get the files.** `git clone https://github.com/jeddakholmes-byte/RememberGame.git`. The MV project lives in `game/`; the rest is documentation.
 5. **Delete macOS junk before you commit:**
    ```bash
    find . -name ".DS_Store" -delete
@@ -99,9 +99,20 @@ curl -X POST \
 
 ---
 
-## 5. Updating the site
+## 5. Adding files, and updating the site
 
-Edits go in `game/`, documentation goes in `docs/`. After any change:
+### Where a new file goes
+
+| What you have | Put it in | Notes |
+|---|---|---|
+| New artwork | `art/incoming/` | Never straight into `game/`. Naming rules are in `art/incoming/README.md` |
+| New script or a change to an existing line | `script/drafts/` | One scene per file. `script/drafts/README.md` shows the format for proposing a change to an existing line |
+| A finished asset, ready to go into the game | `game/img/…` or `game/audio/…` | Only after it has been checked against `art/README.md`. **Never rename or delete an existing file** — the game looks assets up by filename string |
+| A finished script, ready to go into the game | the map's events, in the RPG Maker MV editor | Then re-export `script/ACT1_SCRIPT.md` so the repo text still matches the game |
+
+### Committing a change
+
+After any change:
 
 ```bash
 cd path/to/RememberGame
@@ -113,6 +124,8 @@ git push
 GitHub Pages redeploys automatically, usually within a minute. To watch it: <https://github.com/jeddakholmes-byte/RememberGame/actions>.
 
 **If you edited in the RPG Maker MV editor**, save the project first and close the editor, then commit. MV rewrites the whole JSON files on every save, so one small change can show up as a large diff — that is normal, not corruption.
+
+**After changing any art or script, run the game from New Game before committing.** A mid-chapter save restores the old switch states and will make correct work look broken.
 
 ### Do not commit these
 
