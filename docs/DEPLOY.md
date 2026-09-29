@@ -11,11 +11,15 @@ There is nothing to build. RPG Maker MV projects are static HTML5, GitHub Pages 
 | | |
 |---|---|
 | Repository | `jeddakholmes-byte/RememberGame`, **public**, default branch `main` |
-| Contents | `README.md`, `index.html`, `docs/`, `game/` (the MV project), `enhancement/` |
-| Pages entry point | repository root; `/` serves the landing page, `/game/` serves the game |
+| Contents | `README.md`, `index.html`, `docs/`, `game/` (the MV project), `enhancement/` — 1238 files, 436 MB |
+| Pages | **enabled**, source = branch `main`, folder `/ (root)` |
+| Live URL | <https://jeddakholmes-byte.github.io/RememberGame/> |
+| Game URL | <https://jeddakholmes-byte.github.io/RememberGame/game/> |
 | `.nojekyll` | present, so Pages serves the folders as-is |
 
-If the site is not live yet, do §4 once. After that it redeploys automatically on every push.
+**Verified on 2026-09-29:** the published site returns HTTP 200 for the landing page, `/game/`, `game/index.html`, `game/data/Map001.json` and `game/img/titles1/RM_Title.png`; and loading `/game/` in a browser reaches the title screen, starts a new game on Map 1 at (12,12), and reports no script errors and no failed requests.
+
+After the initial setup, the site redeploys automatically on every push to `main` — usually within a minute.
 
 ---
 
