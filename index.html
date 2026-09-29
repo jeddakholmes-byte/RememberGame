@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Remember Me — Act I</title>
+<link rel="icon" href="game/icon/icon.png" type="image/png">
+<style>
+  :root{
+    --ink:#efe8dc;
+    --ink-dim:#b6ac9c;
+    --gold:#c9a86a;
+    --gold-soft:#e0c48d;
+    --panel:rgba(28,26,24,.72);
+    --line:rgba(201,168,106,.28);
+    --bg:#141312;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{
+    background:var(--bg);
+    color:var(--ink);
+    font-family:Georgia,"Iowan Old Style","Times New Roman",serif;
+    line-height:1.65;
+    -webkit-font-smoothing:antialiased;
+  }
+  a{color:var(--gold-soft);text-decoration:none;border-bottom:1px solid rgba(224,196,141,.35)}
+  a:hover{color:#fff;border-bottom-color:#fff}
+
+  /* ---------- hero ---------- */
+  .hero{
+    position:relative;
+    min-height:440px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    background:#0d0c0b url("game/img/titles1/RM_Title.png") center/cover no-repeat;
+    border-bottom:1px solid var(--line);
+  }
+  .hero::after{
+    content:"";
+    position:absolute;inset:0;
+    background:linear-gradient(180deg,rgba(10,9,8,.55) 0%,rgba(10,9,8,.35) 45%,rgba(20,19,18,.96) 100%);
+  }
+  .hero-inner{position:relative;z-index:1;padding:56px 24px 64px;max-width:760px}
+  .hero h1{
+    margin:0;
+    font-size:clamp(38px,7vw,68px);
+    font-weight:400;
+    letter-spacing:.02em;
+    text-shadow:0 2px 18px rgba(0,0,0,.7);
+  }
+  .hero .sub{
+    margin:14px auto 0;
+    max-width:520px;
+    color:var(--ink-dim);
+    font-size:clamp(14px,2.1vw,17px);
+    font-style:italic;
+  }
+  .rule{
+    width:120px;height:1px;background:var(--line);
+    margin:26px auto 0;
+    position:relative;
+  }
+  .rule::before{
+    content:"❦";
+    position:absolute;left:50%;top:50%;
+    transform:translate(-50%,-52%);
+    background:#141312;
+    padding:0 10px;
+    color:var(--gold);
+    font-size:12px;
+  }
+  .play{
+    display:inline-block;
+    margin-top:30px;
+    padding:15px 46px;
+    border:1px solid var(--gold);
+    border-radius:2px;
+    background:rgba(201,168,106,.12);
+    color:var(--gold-soft);
+    font-size:17px;
+    letter-spacing:.16em;
+    text-transform:uppercase;
+    transition:background .2s,color .2s,box-shadow .2s;
+  }
+  .play:hover{background:var(--gold);color:#1a1815;box-shadow:0 0 26px rgba(201,168,106,.35)}
+  .meta{
+    margin-top:20px;color:#8d8579;font-size:12.5px;letter-spacing:.06em;
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  }
+
+  /* ---------- body ---------- */
+  main{max-width:900px;margin:0 auto;padding:52px 24px 20px}
+  h2{
+    font-size:15px;
+    letter-spacing:.2em;
+    text-transform:uppercase;
+    color:var(--gold);
+    font-weight:400;
+    margin:0 0 20px;
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  }
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px;margin-bottom:48px}
+  .card{
+    background:var(--panel);
+    border:1px solid rgba(255,255,255,.07);
+    border-radius:3px;
+    padding:20px 22px 22px;
+  }
+  .card h3{
+    margin:0 0 6px;font-size:17px;font-weight:400;color:var(--ink);
+  }
+  .card p{margin:0;color:var(--ink-dim);font-size:14.5px}
+  .card code{
+    font-family:ui-monospace,SFMono-Regular,Menlo,monospace;
+    font-size:12.5px;color:var(--gold-soft);
+    background:rgba(201,168,106,.09);
+    padding:1px 5px;border-radius:2px;
+  }
+  .docs{list-style:none;padding:0;margin:0 0 48px}
+  .docs li{padding:11px 0;border-bottom:1px solid rgba(255,255,255,.06);font-size:15px}
+  .docs li span{color:var(--ink-dim);display:block;font-size:13.5px;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+  .note{
+    border-left:2px solid var(--gold);
+    background:rgba(201,168,106,.06);
+    padding:16px 20px;
+    font-size:14.5px;
+    color:var(--ink-dim);
+    margin-bottom:48px;
+  }
+  .note b{color:var(--ink);font-weight:400}
+  footer{
+    border-top:1px solid rgba(255,255,255,.07);
+    padding:26px 24px 54px;
+    text-align:center;
+    color:#77706a;
+    font-size:12.5px;
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="hero-inner">
+    <h1>Remember Me</h1>
+    <p class="sub">A Story About Love, Memory and Goodbye</p>
+    <div class="rule"></div>
+    <a class="play" href="game/index.html">Play Act&nbsp;I</a>
+    <p class="meta">816 × 624 &nbsp;·&nbsp; keyboard only &nbsp;·&nbsp; arrows to move, Enter to interact, Esc for the menu</p>
+  </div>
+</header>
+
+<main>
+
+  <h2>Quick start</h2>
+  <div class="grid">
+    <div class="card">
+      <h3>Play it</h3>
+      <p>Click <b>Play Act I</b>. It runs in the browser exactly as it runs in RPG Maker MV — this is the original project, not a conversion.</p>
+    </div>
+    <div class="card">
+      <h3>Run it locally</h3>
+      <p>Serve <code>game/</code> over HTTP and open <code>index.html</code>. Opening the file directly will not work.</p>
+    </div>
+    <div class="card">
+      <h3>Edit it</h3>
+      <p>Open <code>game/Game.rpgproject</code> in RPG Maker MV 1.6.1. Data lives in <code>game/data/</code>.</p>
+    </div>
+  </div>
+
+  <h2>Documentation</h2>
+  <ul class="docs">
+    <li><a href="README.md">README.md</a><span>What this repository is, what the game is, current build state.</span></li>
+    <li><a href="docs/FILE_GUIDE.md">docs/FILE_GUIDE.md</a><span>Every file and folder explained — what it does, whether you may edit it.</span></li>
+    <li><a href="docs/GAME_REFERENCE.md">docs/GAME_REFERENCE.md</a><span>Maps, events, switches, walkthrough, where each line of dialogue lives.</span></li>
+    <li><a href="docs/ACT1_SCRIPT.md">docs/ACT1_SCRIPT.md</a><span>The complete in-game text, in order, with its branch conditions.</span></li>
+    <li><a href="docs/LOCAL_SETUP.md">docs/LOCAL_SETUP.md</a><span>Run locally, open in the MV editor, and the traps to avoid.</span></li>
+    <li><a href="docs/DEPLOY.md">docs/DEPLOY.md</a><span>How this site was published, and how to ship an update.</span></li>
+    <li><a href="docs/VERIFICATION.md">docs/VERIFICATION.md</a><span>The browser playthrough that proved the build runs — and what was not tested.</span></li>
+    <li><a href="docs/ENHANCEMENT_REVIEW.md">docs/ENHANCEMENT_REVIEW.md</a><span>Review of the 2026-09-29 enhancement package and what is still outstanding.</span></li>
+  </ul>
+
+  <div class="note">
+    <b>Build state.</b> The playable build has the new character art and most of the staging work, but the
+    polish pass is incomplete — the flashback still shakes, has no interaction hints, and the system language
+    is still <code>zh_CN</code>. Full list in <a href="docs/ENHANCEMENT_REVIEW.md">docs/ENHANCEMENT_REVIEW.md</a>.
+  </div>
+
+</main>
+
+<footer>
+  CSS5190 Game Your Psychology: AI, Creativity &amp; Mental Health — CUHK-Shenzhen, Fall 2026<br>
+  Built with RPG Maker MV 1.6.1. Assets whose names begin with <code>RM_</code> are original to this project.
+</footer>
+
+</body>
+</html>

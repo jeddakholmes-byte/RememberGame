@@ -1,0 +1,21 @@
+# macOS
+.DS_Store
+._*
+.Spotlight-V100
+.Trashes
+.AppleDouble
+
+# RPG Maker MV editor backups and stray exports
+*.bak
+*.bak2
+*.orig
+*.tmp
+~$*
+
+# Local playtest saves (the browser build does not use these)
+game/save/*.rpgsave
+
+# Editors
+.vscode/
+.idea/
+*.swp

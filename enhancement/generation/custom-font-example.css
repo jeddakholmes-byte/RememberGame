@@ -1,0 +1,8 @@
+/* OPTIONAL TEMPLATE ONLY. Do not install until CustomFont.ttf exists. */
+@font-face {
+    font-family: GameFont;
+    src: url("CustomFont.ttf") format("truetype");
+    font-weight: normal;
+    font-style: normal;
+}
+body { font-family: GameFont, sans-serif; }
