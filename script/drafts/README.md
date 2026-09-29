@@ -1,38 +1,40 @@
-# 剧本草稿 drafts/
+**English** · [简体中文](README.zh-CN.md)
 
-新写的剧本先放这里。格式、命名、语气规范见上级目录的 [`../README.md`](../README.md)。
+# Script drafts drafts/
 
-## 命名
+Put newly written script here first. For format, naming and voice rules, see the parent folder's [`../README.md`](../README.md).
+
+## Naming
 
 ```
-ACT2_<场景名>_script.md        例：ACT2_Attic_script.md
+ACT2_<scene name>_script.md        e.g. ACT2_Attic_script.md
 ```
 
-一个场景一个文件。不要几个人往同一个文件里写。
+One file per scene. Do not have several people writing into the same file.
 
-## 改已有台词的写法
+## How to write a change to an existing line
 
-不要直接改 `../ACT1_SCRIPT.md`（那是从工程导出的，一改就被覆盖）。在这里新建一个文件，写清楚"原文 / 改成"：
+Do not edit `../ACT1_SCRIPT.md` directly (it is exported from the project and any change is overwritten). Create a new file here and write "original / changed to" clearly:
 
 ```markdown
-# 修改：Act I OldGrave_4 的错别字
+# Change: the typo in Act I OldGrave_4
 
-## 事件
-Map001 → 017 OldGrave_4（坐标 18,4）
+## Event
+Map001 → 017 OldGrave_4 (coordinates 18,4)
 
-## 原文
+## Original
 It seems to be abondoned a long time ago.
 
-## 改成
+## Changed to
 It looks like no one has been here
 for a long time.
 
-## 原因
-修 `abondoned` 拼写；同时更接近孩子的具体观察。
+## Reason
+Fix the `abondoned` spelling; also closer to a child's concrete observation.
 ```
 
-带上**事件名和坐标**，做事件的人才能找到位置。
+Include the **event name and coordinates**, so whoever builds events can find the place.
 
-## 定稿之后
+## Once it is final
 
-由一个人把草稿合并进工程（RPG Maker MV 的事件里），然后**从 New Game 跑一遍**确认台词出现的位置和顺序对。合并完成后，`../ACT1_SCRIPT.md` 之类由数据导出的文件要重新导出，别让仓库里的文本和游戏对不上。
+One person merges the draft into the project (into the RPG Maker MV events), then **plays through from New Game** to confirm the lines appear in the right place and in the right order. After that merge, data-exported files such as `../ACT1_SCRIPT.md` have to be exported again, so the text in the repository does not drift from the game.

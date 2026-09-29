@@ -1,3 +1,5 @@
+**English** · [简体中文](GAME_REFERENCE.zh-CN.md)
+
 # Game reference
 
 The map to the game's insides. Read this before changing an event.
@@ -34,7 +36,7 @@ Everything below is derived from `game/data/Map001.json`, `Map002.json`, `System
 | 1 | `OpeningController` | (0,0) | **Autorun** | The cold open. Fades out, sets player followers on, forbids saving, starts the rain ambience, then plays Grace's three opening lines, turns the rain on, fades in, starts the cemetery BGM at volume 32, lets Mom speak, walks Mom two steps, shows the CONTROLS card, sets switch 1 ON, forbids the menu. | p1 autorun (the whole scene), p2 action-button and empty once switch 1 is ON |
 | 2 | `Mom` | (13,12) | Action button | First talk: the four-beat exchange ("Mom?" → "Are we going home soon?" → "Where is Grandma now?") then "You can look at Grandma's stone. I'll be right here." Sets self-switch A so she only says the short line afterwards. Page 2 is an autorun that fires when switch 6 (`MomCall`) is ON and Grace has not yet seen the stone — Mom calls her over. | p1 talk, p2 autorun |
 | 3 | `Dad` | (14,7) | Action button | Page 1: Grace says "Dad?", Dad says "…", Grace narrates "He's looking at Grandma's stone." Page 2 (after switch 2): the real conversation — Dad turns, "Hey, Gracie.", "Are you crying?", "A little.", "Why?", "Because I miss Grandma." — then the door creak, menu restored, fade, switch 3 ON, transfer to Map 2 at (12,13) facing right. Page 3 is an empty post-flashback page. | p1, p2, p3 |
-| 4 | `Gravestone_Main` | (11,6) | Action button | The headstone close-up. Shows `RM_Gravestone` full screen, plays `RM_Chime`, then Grace's five lines about the name and the photograph. Sets switch 2 ON (`VisitedGrave`). Dad turns and wipes his face. | p1 first read, p2 short re-read |
+| 4 | `Gravestone_Main` | (11,6) | Action button | The headstone close-up. Fades `RM_Gravestone` in over 30 frames, plays `RM_Chime`, then Grace's five lines about the name and the photograph. Fades the picture out over 24 frames before erasing it. Sets switch 2 ON (`VisitedGrave`). Dad turns and wipes his face. | p1 first read, p2 short re-read |
 | 5 | `WhiteFlowers` | (10,6) | Action button | Flowers around the main stone. Long version the first time (switch 8 OFF), one-line version after. Sets switch 8 ON. | p1 |
 | 6 | `OldGrave_WitheredFlowers` | (5,10) | Action button | "I don't know this person. The flowers here seem withered." Counts the grave. | p1 |
 | 7 | `UncleJames` | (8,9) | Action button | One line: "Take your time, Grace." | p1 |
@@ -43,7 +45,7 @@ Everything below is derived from `game/data/Map001.json`, `Map002.json`, `System
 | 10 | `AfterFlashback_EndAct` | (1,0) | **Autorun** | The finale, and the last thing in Act I. See §4. | p1 empty, p2 the ending, p3 empty once switch 5 is ON |
 | 11 | `ExitLeft` | (11,16) | Player touch | Blocks the gate: Mom says "Stay inside the gate, Grace." and pushes Grace back down. | p1 |
 | 12 | `ExitRight` | (12,16) | Player touch | Same as 11. | p1 |
-| 13 | `Gravestone_Right` | (12,6) | Action button | A second approach tile for the same headstone. Identical text to event 4. | p1, p2 |
+| 13 | `Gravestone_Right` | (12,6) | Action button | A second approach tile for the same headstone. Identical text and identical picture fade to event 4 — **change both or neither**. | p1, p2 |
 | 14 | `Ambience` | (0,0) | **Parallel** | The sound bed: waits ~15 s, plays `RM_WindGust`; waits ~20 s, `RM_CrowCaw`; waits ~25 s, `RM_WindGust`. Loops once switch 1 is ON. | p1 empty, p2 parallel loop |
 | 15 | `Bench_RelicBox` | (4,13) | Action button | Second approach tile for the bench. Same text as event 9. | p1 |
 | 16 | `OldGrave_3` | (5,4) | Action button | "There is nothing here." Counts the grave. | p1 |
@@ -87,7 +89,7 @@ Runs as one continuous autorun:
 9. Fade BGM and BGS, stop SE, wait, Dad steps away with `RM_Step1`, fade out.
 10. Switch 3 OFF, switch 4 ON, transfer back to Map 1 at (13,7).
 
-Steps 6 and 7 — the two screen shakes and the two hard knocks — are the ones the planned polish pass removes. They are still here.
+Steps 6 and 7 — the two screen shakes and the two hard knocks — are the ones the planned polish pass removes. **They are still here**, at volumes 50 and 70.
 
 ### 4.2 `AfterFlashback_EndAct` (Map 1, event 10, page 2)
 
@@ -96,11 +98,13 @@ Autoruns once switch 4 (`FlashbackComplete`) is ON:
 1. Menu restored, screen tinted back, rain and `RM_Rain` restarted, camera scrolls to Dad, fade in, cemetery BGM at volume 45.
 2. Dad: *"Grace?"* … *"You okay?"* Grace: *"… Yeah."* Dad steps away.
 3. The turn of the chapter — Grace: *"Dad got angry with Grandma sometimes."* / *"Grandma isn't here anymore. And Dad is crying."* / *"I don't understand."*
-4. Mom arrives: *"Grace. We're going home now."* Then `RM_Box` starts, Mom: *"I brought this from Grandma's house. Your name is on it."*
-5. Show picture `RM_Box`, `RM_Cardboard` + `RM_Swell`, Mom: *"For Grace."* / *"We found it with her things. Maybe she wanted you to have it."*
-6. Grace: *"Can I open it?"* Mom: *"When we get home. Let's keep it dry."*
-7. Fade out, erase the picture, two closing narration lines, then the card: **`ACT I — END` / `The things Grandma left behind.`**
-8. Switch 1 OFF (so the ambience stops), fade everything, `code 354` (wait for the fade to finish), switch 5 ON.
+4. Mom appears beside Grace and says *"Grace. We're going home now."*
+5. **The handover cut.** Fade out, fade the cemetery BGM out over 1 second, move Mom to (8,14) facing right, transfer Grace to (9,14) facing left with no fade, fade back in. This blackout is what makes Mom read as having walked over instead of teleporting — see §8 for why it must not be deleted.
+6. `RM_Box` starts, then Mom: *"I brought this from Grandma's house. Your name is on it."*
+7. `RM_Box` fades in over 30 frames, `RM_Cardboard` + `RM_Swell`, Mom: *"For Grace."* / *"We found it with her things. Maybe she wanted you to have it."*
+8. Grace: *"Can I open it?"* Mom: *"When we get home. Let's keep it dry."*
+9. Fade out, erase the picture, two closing narration lines, then the card: **`ACT I — END` / `The things Grandma left behind.`**
+10. Fade everything, `code 354` (return to the title screen). **Note:** the Control Switches command here is set to range **0001–0005 = ON**; the original only turned on 0005. Widening it re-arms the ambience loop and lights up three switches the ending has no use for.
 
 ---
 
@@ -136,7 +140,7 @@ The counter and switch 6 do overlapping jobs: switch 6 makes Mom call Grace afte
 3. **Read Grandma's headstone** (11,6) or (12,6). This sets `VisitedGrave`. Optionally inspect the two flower clusters and the four old graves first; after any old grave, Mom calls Grace over.
 4. **Talk to Dad** (14,7). The full conversation only plays after step 3. It ends with a door creak and a transfer.
 5. **The flashback** plays itself. No input needed.
-6. **Back in the cemetery**, the ending autorun: Dad asks if Grace is okay, Grace's realisation, Mom arrives with the box, `ACT I — END`.
+6. **Back in the cemetery**, the ending autorun: Dad asks if Grace is okay, Grace's realisation, then a blackout that repositions Grace next to Mom at the bench, and the box handover. `ACT I — END`.
 7. Grace can talk to Uncle James (8,9), Aunt (17,10), Grandpa (16,7) and inspect the bench (4,13 / 5,13) at any point.
 
 Minimum path: headstone → Dad. Everything else is texture.
@@ -166,6 +170,8 @@ Grace's lines use the colour code `\C[4]`, Mom `\C[6]`, Dad `\C[1]`, Grandma `\C
 
 **Change a line of dialogue.** MV editor → Map 1 → double-click the event → select the page → edit the text in the Show Text box. Never edit `Map001.json` by hand while the editor is open; the editor will overwrite your change on save.
 
+**Fade a full-screen picture in or out.** MV's Show Picture has **no duration field**, so a fade needs two commands: Show Picture at **opacity 0**, then Move Picture to **opacity 255** with a duration of 30 frames and *wait for completion* ticked. To fade out, Move Picture to opacity 0 over 24 frames, then Erase Picture. The headstone (events 4 and 13) and the box (event 10) all use this pattern — copy it rather than inventing a new one.
+
 **Add an interaction hint.** Not wired up yet. `RM_Act1_Experience.js` reads `<RMHint: your text>` from an event's **Note field** (the top-right box in the event editor) — not from a Comment command. Then enable the plugin. Both steps are outstanding.
 
 **Add a new character to the map.** Drop the sprite into `game/img/characters/` (144 × 192 for a `$`-prefixed single character), the face sheet into `game/img/faces/` (576 × 288), create an event, set its image, and set the face name plus an index from 0 to 7 at each Show Text box.
@@ -173,3 +179,5 @@ Grace's lines use the colour code `\C[4]`, Mom `\C[6]`, Dad `\C[1]`, Grandma `\C
 **Move the player's start point.** MV editor → right-click Map 1 → *Edit Map* → set the player start. The current start is (12,12).
 
 **Test a switch change.** Always start a **New Game**. A save from the middle of the chapter will restore the old switch states and make your change look broken.
+
+**Do not delete the blackout in the box handover.** The five commands after Mom's *"Grace. We're going home now."* — fade out, fade BGM, set Mom's location, transfer Grace, fade in — are what make the handover read as a cutaway. `RM_Box.png` is full-screen, so without them Mom simply teleports into shot and the picture slams on top. It looks like a bug, and it was removed once already by accident.

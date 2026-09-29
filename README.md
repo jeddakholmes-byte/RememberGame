@@ -1,113 +1,119 @@
+**English** · [简体中文](README.zh-CN.md)
+
 # Remember Me — Act I
 
-**CSS5190 Game Your Psychology: AI, Creativity & Mental Health**（香港中文大学（深圳），2026 秋季）期末项目的回合制叙事游戏，RPG Maker MV 1.6.1 制作。
+A turn-based narrative game for the final project of **CSS5190 Game Your Psychology: AI, Creativity & Mental Health** (The Chinese University of Hong Kong, Shenzhen, Fall 2026), made with RPG Maker MV 1.6.1.
 
-这个仓库同时是**可玩的游戏**和**小组的工作台**：素材规范、剧本规范、文件清单、最新工程，都在这里。
+This repository is both a **playable game** and the **team's workbench**: art specs, script specs, file lists and the latest build all live here.
 
 ---
 
-## 你该看哪个文件
+## Which file to look at
 
-| 你是 | 看这个 | 里面有什么 |
+| You are | Look at this | What is in it |
 |---|---|---|
-| **美工** | [`art/README.md`](art/README.md) | 每类素材放在哪个文件夹、文件尺寸和格子怎么算、命名规则、现有素材清单、交付流程、投稿区 |
-| **剧本** | [`script/README.md`](script/README.md) | 一句台词在游戏里怎么写、每行多少字、颜色码和表情索引、角色语气、可直接抄的模板、草稿放哪 |
-| 想知道某个文件是干嘛的 | [`docs/FILE_GUIDE.md`](docs/FILE_GUIDE.md) | 仓库里每个文件夹、每个关键文件的用途，以及"能不能改" |
-| 想知道某句话、某个开关在哪 | [`docs/GAME_REFERENCE.md`](docs/GAME_REFERENCE.md) | 两张地图的 23 个事件、8 个开关、通关流程 |
-| 想读完整的剧本 | [`script/ACT1_SCRIPT.md`](script/ACT1_SCRIPT.md) | 第一幕全部游戏内文本，按出现顺序 |
-| 要往仓库里加文件 | [`docs/DEPLOY.md`](docs/DEPLOY.md) | 怎么放、怎么提交、怎么发布上线 |
-| 想直接玩 | <https://jeddakholmes-byte.github.io/RememberGame/> | 浏览器里直接玩，不用装任何东西 |
+| **Artist** | [`art/README.md`](art/README.md) | which folder each kind of asset goes in, file sizes and how the grid maths works, naming rules, the list of art that already exists, the handover process, the submission area |
+| **Writer** | [`script/README.md`](script/README.md) | how one line of dialogue is written in the game, how many characters per row, colour codes and expression indexes, character voice, templates you can copy, where drafts go |
+| Looking for what a file is for | [`docs/FILE_GUIDE.md`](docs/FILE_GUIDE.md) | what every folder and key file in the repository is for, and whether you can change it |
+| Looking for a line or a switch | [`docs/GAME_REFERENCE.md`](docs/GAME_REFERENCE.md) | the 23 events, 8 switches and the walkthrough for both maps |
+| Wanting to read the full script | [`script/ACT1_SCRIPT.md`](script/ACT1_SCRIPT.md) | every in-game line of Act I, in order of appearance |
+| Adding files to the repository | [`docs/DEPLOY.md`](docs/DEPLOY.md) | where to put them, how to commit, how to publish |
+| Just wanting to play | <https://jeddakholmes-byte.github.io/RememberGame/> | play in the browser, nothing to install |
 
 ---
 
-## 玩 / 打开
+## Play / open
 
 | | |
 |---|---|
-| **在线玩** | <https://jeddakholmes-byte.github.io/RememberGame/> |
-| **游戏直链** | <https://jeddakholmes-byte.github.io/RememberGame/game/> |
-| **用 MV 打开改** | 用 RPG Maker MV 1.6.1 打开 `game/Game.rpgproject` |
-| **在自己电脑上跑** | `cd game && python3 -m http.server 8080`，然后开 <http://127.0.0.1:8080/>。**双击 `index.html` 打不开**，必须走 HTTP |
+| **Play online** | <https://jeddakholmes-byte.github.io/RememberGame/> |
+| **Direct game link** | <https://jeddakholmes-byte.github.io/RememberGame/game/> |
+| **Open it in MV to edit** | Open `game/Game.rpgproject` with RPG Maker MV 1.6.1 |
+| **Run it on your own machine** | `cd game && python3 -m http.server 8080`, then open <http://127.0.0.1:8080/>. **Double-clicking `index.html` does not work** — it must be served over HTTP |
 
-操作：**方向键**走，**Enter / 空格**看或说话，**Esc / X** 开菜单。画面 816 × 624，只用键盘。
+Controls: **arrow keys** to walk, **Enter / Space** to look or talk, **Esc / X** for the menu. The screen is 816 × 624 and only the keyboard is used.
 
 ---
 
-## 仓库里有什么
+## What is in the repository
 
 ```
 RememberGame/
-├── README.md              ← 你在这里
-├── index.html             ← 落地页（GitHub Pages 的"开始游戏"入口）
-├── art/                   ← 美工
-│   ├── README.md              素材规范、尺寸、命名、清单、交付流程
-│   ├── specs/                 自动生成的对照图（每个角色的 8 个表情、行走图格子）
-│   └── incoming/              新素材先放这里，别直接扔进 game/
-├── script/                ← 剧本
-│   ├── README.md              写作规范、格式、语气、模板
-│   ├── ACT1_SCRIPT.md         第一幕全文（从工程导出，只读）
-│   └── drafts/                新剧本草稿
-├── docs/                  ← 技术与运维
-│   ├── FILE_GUIDE.md          每个文件是干嘛的
-│   ├── GAME_REFERENCE.md      地图 / 事件 / 开关 / 流程
-│   ├── DEPLOY.md              怎么加文件、怎么发布
-│   ├── VERIFICATION.md        上线前的浏览器实跑记录
-│   └── screenshots/           游戏截图
-└── game/                  ← 游戏本体。1169 个文件，400 MB，RPG Maker MV 1.6.1 工程
+├── README.md              ← you are here
+├── index.html             ← landing page; English by default, with an EN / 中文 switch
+├── art/                   ← for the artist
+│   ├── README.md              asset specs, sizes, naming, inventory, handover process
+│   ├── specs/                 auto-generated reference sheets (8 expressions and the sprite grid per character)
+│   └── incoming/              put new assets here first — not straight into game/
+├── script/                ← for the writer
+│   ├── README.md              writing rules, format, voice, templates
+│   ├── ACT1_SCRIPT.md         the full text of Act I, exported from the project (English only)
+│   └── drafts/                new script drafts
+├── docs/                  ← technical and operations
+│   ├── FILE_GUIDE.md          what every file is for
+│   ├── GAME_REFERENCE.md      maps / events / switches / flow
+│   ├── DEPLOY.md              how to add files, how to publish
+│   ├── VERIFICATION.md        the browser test record taken before going live
+│   └── screenshots/           game screenshots
+└── game/                  ← the game itself. 1169 files, 400 MB, an RPG Maker MV 1.6.1 project
 ```
 
-**`game/` 就是完整的工程，没有删改过任何东西。** 它同时是两样东西：
-
-- 用 RPG Maker MV 打开的工程，和
-- GitHub Pages 正在托管的那份网页版。
-
-这不是巧合。RPG Maker MV 的游戏本身就是 HTML5 + JavaScript，没有"转换"这一步——所以网页版是原版 1:1 的拷贝，而不是重写。
+**Languages.** Every document above except `script/ACT1_SCRIPT.md` also exists in Chinese at the same path with `.zh-CN.md` appended — `README.zh-CN.md`, `art/README.zh-CN.md`, and so on. Each page links to its other language in the first line. `ACT1_SCRIPT.md` has no translation because it is the English text the game actually plays.
 
 ---
 
-## 游戏是什么
+**`game/` is the complete project, and nothing in it has been deleted or changed.** It is two things at once:
 
-**第一幕，单章。** Grace 七岁，在奶奶的葬礼上。她在墓园里走一圈，看墓碑，跟妈妈、爸爸、舅舅和爷爷说话，然后跟着爸爸进了一段闪回——奶奶走之前，爸爸和她最后那一次争吵。这一章结束在妈妈把奶奶留给 Grace 的盒子递给她。
+- the project you open in RPG Maker MV, and
+- the web build GitHub Pages is serving.
+
+This is not a coincidence. An RPG Maker MV game is already HTML5 + JavaScript, with no "conversion" step — so the web build is a 1:1 copy of the original, not a rewrite.
+
+---
+
+## What the game is
+
+**Act I, a single chapter.** Grace is seven, at her grandmother's funeral. She walks once around the cemetery, looks at the headstone, talks to Mom, Dad, Uncle James and Grandpa, then follows Dad into a flashback — the last argument between Dad and Grandma before she died. The chapter ends with Mom handing Grace the box Grandma left her.
 
 | | |
 |---|---|
-| 主角 | Grace（`$RM_Grace`） |
-| 地图 | `Act1_Cemetery`（Map001）和 `Act1_House_Flashback`（Map002），都是 24 × 18 |
-| 事件指令 | 508 条 |
-| 对白 | 81 个对话框、187 行、513 个词 |
-| 时长 | 大约十分钟 |
-| 开关 | 8 个，全部已命名 — 见 [`docs/GAME_REFERENCE.md`](docs/GAME_REFERENCE.md) |
-| 结局 | `ACT I — END / The things Grandma left behind.`，然后回到标题画面 |
+| Protagonist | Grace (`$RM_Grace`) |
+| Maps | `Act1_Cemetery` (Map001) and `Act1_House_Flashback` (Map002), both 24 × 18 |
+| Event commands | 508 |
+| Dialogue | 81 message boxes, 187 lines, 513 words |
+| Length | about ten minutes |
+| Switches | 8, all named — see [`docs/GAME_REFERENCE.md`](docs/GAME_REFERENCE.md) |
+| Ending | `ACT I — END / The things Grandma left behind.`, then back to the title screen |
 
-没有分支，不会失败。可选内容只有四段支线对话和花朵、旧墓碑的调查。
-
----
-
-## 当前完成度 —— 动手改之前先看这段
-
-这一版**不是最终版**。计划里的打磨做了一部分：
-
-**已经做进去的。** 四个人物都有自己独立的行走图和脸图；爷爷的事件已经在 (16,7)；开场有 CONTROLS 操作说明卡；菜单和存档权限规则已经就位；妈妈那段长对话只会播一次；两处花共用一个开关；爸爸第 2 页的传送改到了 Map002 (12,13) 朝右。
-
-**还没做进去的。** 闪回里还留着两次屏幕震动和两次 `RM_KnockHard` 音效，"后退一步"的修正也没有。事件上还没有 `<RMHint:>` 备注，`RM_Act1_Experience` 插件在 `js/plugins/` 里但没在 `js/plugins.js` 里打开——所以没有互动提示、也没有脚步声。`data/System.json` 目前还是 `locale: "zh_CN"` 配默认中文界面用语、`optFollowers: true`、标题音乐音量 90。017 号事件里那个拼错的 `abondoned` 还在。
-
-**没有为了掩盖这些改过任何东西。** 仓库发布时，`game/` 里一个文件都没动过。
-
-不过它是能跑通的。上线前在浏览器里从 New Game 一路打到 `ACT I — END` 再回到标题画面，没有脚本报错，也没有缺素材——记录在 [`docs/VERIFICATION.md`](docs/VERIFICATION.md)。
+There is no branching and you cannot fail. The only optional content is four side conversations and the examination of the flowers and the old headstone.
 
 ---
 
-## 加文件之前
+## Build state — read before you edit
 
-- **新素材先进 `art/incoming/`**，新剧本先进 `script/drafts/`。`game/` 里永远是能跑的干净版本，别直接往里扔半成品。
-- **`game/img/` 和 `game/audio/` 里已有文件不要改名、不要覆盖。** 游戏是按文件名的字符串去找图的，改名不会报错，只会静默地不显示。
-- **加完东西一定要跑一遍，并且从 New Game 开始。** 读旧存档会把旧的开关状态一起载进来，让正确的改动看起来是坏的。
-- 提交和发布的具体步骤见 [`docs/DEPLOY.md`](docs/DEPLOY.md)。
+The build is **not final**, but the polish pass has started.
+
+**Already in.** The four characters all have their own sprites and face sets, and Grandpa's event exists at (16,7). The opening CONTROLS card is written, and the menu and save access rules are in place. Mom's long conversation only plays once and the two flower clusters share a switch. Dad's page-2 transfer goes to Map002 (12,13) facing right. The headstone and the box close-ups fade in and out instead of popping. **The box handover works again:** after Mom's line the screen fades out, Mom and Grace are repositioned to (8,14) and (9,14), and the scene fades back in on the two of them at the bench — so the full-screen `RM_Box` picture reads as a deliberate cutaway rather than a teleport.
+
+**Still not in.** The flashback still plays two screen shakes and two `RM_KnockHard` sounds, and Grace's last step there is still "move up" rather than "step backward". No event carries an `<RMHint:>` note yet, and `RM_Act1_Experience` sits in `js/plugins/` without being switched on in `js/plugins.js` — so there are no interaction hints and no footsteps. `data/System.json` still reports `locale: "zh_CN"` with the default Chinese UI terms, `optFollowers: true` and title BGM volume 90. Event 017 still contains the typo `abondoned`, and the ending's Control Switches command still turns on the whole range 0001–0005 instead of only 0005.
+
+**Nothing was changed to hide this.** No file in `game/` was edited when the repository was published.
+
+The build does run, though: it has been played in a browser from New Game through the flashback to the `ACT I — END` card, with no script errors and no missing assets. See [docs/VERIFICATION.md](docs/VERIFICATION.md).
 
 ---
 
-## 版权与素材来源
+## Before you add files
 
-用 **RPG Maker MV 1.6.1**（Kadokawa / Degica）制作。`game/img/` 和 `game/audio/` 里大部分文件是 RPG Maker MV 自带的 Run Time Package 素材，随工程一起分发是 RTP 本身的用途。
+- **New assets go into `art/incoming/` first**, and new script goes into `script/drafts/` first. `game/` is always a clean, working build — do not drop half-finished work straight into it.
+- **Do not rename or overwrite existing files in `game/img/` or `game/audio/`.** The game looks up images by filename string, so a rename throws no error — the image just silently fails to show.
+- **Always play through after adding something, and start from New Game.** Loading an old save brings the old switch states in with it and makes a correct change look broken.
+- For the exact commit and publish steps, see [`docs/DEPLOY.md`](docs/DEPLOY.md).
 
-**这个游戏自己做的素材，文件名都以 `RM_` 开头**——标题画、两张远景底图、墓碑和遗物箱特写、七张脸图、四张行走图、碰撞图块、标题音乐，以及大约三十个音效。
+---
+
+## Copyright and asset sources
+
+Made with **RPG Maker MV 1.6.1** (Kadokawa / Degica). Most files in `game/img/` and `game/audio/` are Run Time Package assets that ship with RPG Maker MV, and distributing them with the project is what the RTP is for.
+
+**Every asset made for this game starts with `RM_` in the filename** — the title image, the two parallax base images, the headstone and keepsake box close-ups, seven face sets, four sprite sheets, the collision tiles, the title music, and about thirty sound effects.

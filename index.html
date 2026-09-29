@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -20,7 +20,7 @@
   body{
     background:var(--bg);
     color:var(--ink);
-    font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
     line-height:1.75;
     -webkit-font-smoothing:antialiased;
   }
@@ -32,6 +32,23 @@
     background:rgba(201,168,106,.09);
     padding:1px 5px;border-radius:2px;
   }
+
+  /* ---------- language switch ---------- */
+  .langbar{
+    position:absolute;top:18px;right:22px;z-index:3;
+    font-size:12px;letter-spacing:.06em;
+    background:rgba(12,11,10,.72);
+    border:1px solid rgba(201,168,106,.3);
+    border-radius:2px;
+    padding:5px 10px;
+  }
+  .langbar span{color:#6f6960;margin:0 2px}
+  .langbar button{
+    background:none;border:0;padding:1px 4px;cursor:pointer;
+    color:#9a9184;font:inherit;letter-spacing:.06em;
+  }
+  .langbar button:hover{color:var(--ink)}
+  .langbar button[aria-pressed="true"]{color:var(--gold-soft);font-weight:600}
 
   /* ---------- hero ---------- */
   .hero{
@@ -50,7 +67,6 @@
     background:linear-gradient(180deg,rgba(10,9,8,.62) 0%,rgba(10,9,8,0) 34%,rgba(10,9,8,0) 52%,rgba(20,19,18,.94) 88%,rgba(20,19,18,1) 100%);
   }
   .hero-inner{position:relative;z-index:1;padding:0 24px 40px;max-width:760px}
-  /* the title art already has the game's name and tagline drawn into it */
   .sr-only{
     position:absolute;width:1px;height:1px;padding:0;margin:-1px;
     overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0;
@@ -68,15 +84,11 @@
 
   /* ---------- body ---------- */
   main{max-width:900px;margin:0 auto;padding:52px 24px 20px}
-  h2{
-    font-size:14px;letter-spacing:.18em;color:var(--gold);
-    font-weight:500;margin:0 0 20px;
-  }
+  h2{font-size:14px;letter-spacing:.18em;color:var(--gold);font-weight:500;margin:0 0 20px}
   .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:16px;margin-bottom:46px}
   .card{
     background:var(--panel);border:1px solid rgba(255,255,255,.07);
     border-radius:3px;padding:20px 22px 22px;display:block;
-    border-bottom:1px solid rgba(255,255,255,.07);
   }
   .card:hover{border-color:var(--line)}
   .card h3{margin:0 0 8px;font-size:16px;font-weight:500;color:var(--gold-soft)}
@@ -97,59 +109,142 @@
 </head>
 <body>
 
+<div class="langbar" role="group" aria-label="Language / 语言">
+  <button type="button" data-set-lang="en" aria-pressed="true">English</button>
+  <span>·</span>
+  <button type="button" data-set-lang="zh" aria-pressed="false">简体中文</button>
+</div>
+
 <header class="hero">
   <div class="hero-inner">
     <h1 class="sr-only">Remember Me — Act I</h1>
-    <a class="play" href="game/index.html">开 始 游 戏</a>
-    <p class="meta">816 × 624 · 只用键盘 · 方向键移动，Enter 交互，Esc 开菜单</p>
+    <a class="play" href="game/index.html"
+       data-en="Play Act I" data-zh="开始游戏">Play Act I</a>
+    <p class="meta"
+       data-en="816 × 624 · keyboard only · arrow keys to move, Enter to interact, Esc for the menu"
+       data-zh="816 × 624 · 只用键盘 · 方向键移动，Enter 交互，Esc 开菜单">816 × 624 · keyboard only · arrow keys to move, Enter to interact, Esc for the menu</p>
   </div>
 </header>
 
 <main>
 
-  <h2>团队入口</h2>
+  <h2 data-en="Start here" data-zh="团队入口">Start here</h2>
   <div class="grid">
-    <a class="card" href="https://github.com/jeddakholmes-byte/RememberGame/blob/main/art/README.md" target="_blank" rel="noopener">
-      <h3>美工</h3>
-      <p>素材放哪个文件夹、尺寸和格子怎么算、命名规则、现有素材清单、新素材投稿区。</p>
+    <a class="card" data-doc="art/README"
+       href="https://github.com/jeddakholmes-byte/RememberGame/blob/main/art/README.md" target="_blank" rel="noopener">
+      <h3 data-en="Artists" data-zh="美工">Artists</h3>
+      <p data-en="Where every kind of asset lives, the exact pixel sizes and grids, the naming rules, the current asset list, and the inbox for new artwork."
+         data-zh="素材放哪个文件夹、尺寸和格子怎么算、命名规则、现有素材清单、新素材投稿区。">Where every kind of asset lives, the exact pixel sizes and grids, the naming rules, the current asset list, and the inbox for new artwork.</p>
     </a>
-    <a class="card" href="https://github.com/jeddakholmes-byte/RememberGame/blob/main/script/README.md" target="_blank" rel="noopener">
-      <h3>剧本</h3>
-      <p>一句台词怎么写、每行多少字、颜色码和表情索引、角色语气、可抄的模板。</p>
+    <a class="card" data-doc="script/README"
+       href="https://github.com/jeddakholmes-byte/RememberGame/blob/main/script/README.md" target="_blank" rel="noopener">
+      <h3 data-en="Writers" data-zh="剧本">Writers</h3>
+      <p data-en="How a line of dialogue is built, the four-line and forty-character limits, colour codes, face indices, character voices, and a template you can copy."
+         data-zh="一句台词怎么写、每行多少字、颜色码和表情索引、角色语气、可抄的模板。">How a line of dialogue is built, the four-line and forty-character limits, colour codes, face indices, character voices, and a template you can copy.</p>
     </a>
-    <a class="card" href="https://github.com/jeddakholmes-byte/RememberGame/blob/main/docs/FILE_GUIDE.md" target="_blank" rel="noopener">
-      <h3>文件指南</h3>
-      <p>仓库里每个文件夹、每个关键文件是干嘛的，以及能不能改。</p>
+    <a class="card" data-doc="docs/FILE_GUIDE"
+       href="https://github.com/jeddakholmes-byte/RememberGame/blob/main/docs/FILE_GUIDE.md" target="_blank" rel="noopener">
+      <h3 data-en="File guide" data-zh="文件指南">File guide</h3>
+      <p data-en="Every folder and every key file in the repository — what it is for, and whether you are allowed to edit it."
+         data-zh="仓库里每个文件夹、每个关键文件是干嘛的，以及能不能改。">Every folder and every key file in the repository — what it is for, and whether you are allowed to edit it.</p>
     </a>
-    <a class="card" href="https://github.com/jeddakholmes-byte/RememberGame/blob/main/docs/DEPLOY.md" target="_blank" rel="noopener">
-      <h3>加文件 / 发布</h3>
-      <p>新文件放哪、怎么提交、怎么更新线上版本。</p>
+    <a class="card" data-doc="docs/DEPLOY"
+       href="https://github.com/jeddakholmes-byte/RememberGame/blob/main/docs/DEPLOY.md" target="_blank" rel="noopener">
+      <h3 data-en="Adding files / publishing" data-zh="加文件 / 发布">Adding files / publishing</h3>
+      <p data-en="Where a new file goes, how to commit it, and how the published site gets updated."
+         data-zh="新文件放哪、怎么提交、怎么更新线上版本。">Where a new file goes, how to commit it, and how the published site gets updated.</p>
     </a>
   </div>
 
-  <h2>文档（在 GitHub 上阅读）</h2>
+  <h2 data-en="Documentation" data-zh="文档">Documentation</h2>
   <ul class="docs">
-    <li><a href="https://github.com/jeddakholmes-byte/RememberGame/blob/main/README.md" target="_blank" rel="noopener">README.md</a><span>仓库总说明：游戏是什么、当前完成度、目录结构。</span></li>
-    <li><a href="https://github.com/jeddakholmes-byte/RememberGame/blob/main/art/README.md" target="_blank" rel="noopener">art/README.md</a><span>美工素材规范：尺寸、格子、命名、清单、交付流程。</span></li>
-    <li><a href="https://github.com/jeddakholmes-byte/RememberGame/blob/main/script/README.md" target="_blank" rel="noopener">script/README.md</a><span>剧本写作规范：格式、字数、颜色码、语气、模板。</span></li>
-    <li><a href="https://github.com/jeddakholmes-byte/RememberGame/blob/main/script/ACT1_SCRIPT.md" target="_blank" rel="noopener">script/ACT1_SCRIPT.md</a><span>第一幕全部游戏内文本，按出现顺序。</span></li>
-    <li><a href="https://github.com/jeddakholmes-byte/RememberGame/blob/main/docs/FILE_GUIDE.md" target="_blank" rel="noopener">docs/FILE_GUIDE.md</a><span>仓库里每个文件干什么。</span></li>
-    <li><a href="https://github.com/jeddakholmes-byte/RememberGame/blob/main/docs/GAME_REFERENCE.md" target="_blank" rel="noopener">docs/GAME_REFERENCE.md</a><span>地图、事件、开关、通关流程。</span></li>
-    <li><a href="https://github.com/jeddakholmes-byte/RememberGame/blob/main/docs/DEPLOY.md" target="_blank" rel="noopener">docs/DEPLOY.md</a><span>怎么加文件、怎么发布上线。</span></li>
-    <li><a href="https://github.com/jeddakholmes-byte/RememberGame/blob/main/docs/VERIFICATION.md" target="_blank" rel="noopener">docs/VERIFICATION.md</a><span>上线前的浏览器实跑记录，以及没有测到的部分。</span></li>
+    <li><a data-doc="README" href="https://github.com/jeddakholmes-byte/RememberGame/blob/main/README.md" target="_blank" rel="noopener">README.md</a>
+        <span data-en="What the repository is, what the game is, and the current build state."
+              data-zh="仓库总说明：游戏是什么、当前完成度、目录结构。">What the repository is, what the game is, and the current build state.</span></li>
+    <li><a data-doc="art/README" href="https://github.com/jeddakholmes-byte/RememberGame/blob/main/art/README.md" target="_blank" rel="noopener">art/README.md</a>
+        <span data-en="The asset specification: sizes, grids, naming, the current asset list and the delivery process."
+              data-zh="美工素材规范：尺寸、格子、命名、清单、交付流程。">The asset specification: sizes, grids, naming, the current asset list and the delivery process.</span></li>
+    <li><a data-doc="script/README" href="https://github.com/jeddakholmes-byte/RememberGame/blob/main/script/README.md" target="_blank" rel="noopener">script/README.md</a>
+        <span data-en="The writing guide: format, line limits, colour codes, character voices and a template."
+              data-zh="剧本写作规范：格式、字数、颜色码、语气、模板。">The writing guide: format, line limits, colour codes, character voices and a template.</span></li>
+    <li><a data-doc="script/ACT1_SCRIPT" href="https://github.com/jeddakholmes-byte/RememberGame/blob/main/script/ACT1_SCRIPT.md" target="_blank" rel="noopener">script/ACT1_SCRIPT.md</a>
+        <span data-en="The complete in-game text of Act I, in the order the player reads it. English only — it is the script the game plays."
+              data-zh="第一幕全部游戏内文本，按出现顺序。只有英文——它就是游戏里真正播的台词。">The complete in-game text of Act I, in the order the player reads it. English only — it is the script the game plays.</span></li>
+    <li><a data-doc="docs/GAME_REFERENCE" href="https://github.com/jeddakholmes-byte/RememberGame/blob/main/docs/GAME_REFERENCE.md" target="_blank" rel="noopener">docs/GAME_REFERENCE.md</a>
+        <span data-en="Maps, events, switches and the walkthrough — the reference to read before changing any event."
+              data-zh="地图、事件、开关、通关流程——改事件之前先看这份。">Maps, events, switches and the walkthrough — the reference to read before changing any event.</span></li>
+    <li><a data-doc="docs/FILE_GUIDE" href="https://github.com/jeddakholmes-byte/RememberGame/blob/main/docs/FILE_GUIDE.md" target="_blank" rel="noopener">docs/FILE_GUIDE.md</a>
+        <span data-en="What every file in the repository is for, and which ones you may touch."
+              data-zh="仓库里每个文件干什么，哪些能改。">What every file in the repository is for, and which ones you may touch.</span></li>
+    <li><a data-doc="docs/DEPLOY" href="https://github.com/jeddakholmes-byte/RememberGame/blob/main/docs/DEPLOY.md" target="_blank" rel="noopener">docs/DEPLOY.md</a>
+        <span data-en="How to add files, and how the site is published."
+              data-zh="怎么加文件、怎么发布上线。">How to add files, and how the site is published.</span></li>
+    <li><a data-doc="docs/VERIFICATION" href="https://github.com/jeddakholmes-byte/RememberGame/blob/main/docs/VERIFICATION.md" target="_blank" rel="noopener">docs/VERIFICATION.md</a>
+        <span data-en="The browser playthrough that was run before publishing — and what was not tested."
+              data-zh="上线前的浏览器实跑记录，以及没有测到的部分。">The browser playthrough that was run before publishing — and what was not tested.</span></li>
   </ul>
 
   <div class="note">
-    <b>这一版不是最终版。</b>闪回里还留着两次屏幕震动和两次敲击音效，互动提示的插件也还没打开，
-    系统用语仍是中文。<code>game/</code> 里的文件没有被改动过，缺口都如实记在 README 里。
+    <span data-en="This build is not final. The box handover in the ending has been restored and the close-up pictures now fade instead of popping, but the flashback still shakes, no event carries an interaction hint yet, and the system language is still Chinese."
+          data-zh="这一版还不是最终版。结局里交盒子的过场已经恢复、全屏图也改成了淡入淡出，但闪回里还留着震动，互动提示还没接上，系统用语也仍是中文。">This build is not final. The box handover in the ending has been restored and the close-up pictures now fade instead of popping, but the flashback still shakes, no event carries an interaction hint yet, and the system language is still Chinese.</span>
   </div>
 
 </main>
 
 <footer>
-  CSS5190 Game Your Psychology: AI, Creativity &amp; Mental Health — 香港中文大学（深圳），2026 秋季<br>
-  用 RPG Maker MV 1.6.1 制作。文件名以 <code>RM_</code> 开头的素材是本项目自己做的。
+  <span data-en="CSS5190 Game Your Psychology: AI, Creativity &amp; Mental Health — CUHK-Shenzhen, Fall 2026"
+        data-zh="CSS5190 Game Your Psychology: AI, Creativity &amp; Mental Health — 香港中文大学（深圳），2026 秋季">CSS5190 Game Your Psychology: AI, Creativity &amp; Mental Health — CUHK-Shenzhen, Fall 2026</span><br>
+  <span data-en="Made with RPG Maker MV 1.6.1. Assets whose names begin with RM_ are original to this project."
+        data-zh="用 RPG Maker MV 1.6.1 制作。文件名以 RM_ 开头的素材是本项目自己做的。">Made with RPG Maker MV 1.6.1. Assets whose names begin with RM_ are original to this project.</span>
 </footer>
+
+<script>
+(function () {
+  var BLOB = "https://github.com/jeddakholmes-byte/RememberGame/blob/main/";
+  // documents that exist in both languages; everything else is English-only
+  var ZH = {
+    "README": "README.zh-CN.md",
+    "art/README": "art/README.zh-CN.md",
+    "art/incoming/README": "art/incoming/README.zh-CN.md",
+    "script/README": "script/README.zh-CN.md",
+    "script/drafts/README": "script/drafts/README.zh-CN.md",
+    "docs/FILE_GUIDE": "docs/FILE_GUIDE.zh-CN.md",
+    "docs/GAME_REFERENCE": "docs/GAME_REFERENCE.zh-CN.md",
+    "docs/DEPLOY": "docs/DEPLOY.zh-CN.md",
+    "docs/VERIFICATION": "docs/VERIFICATION.zh-CN.md"
+  };
+
+  function apply(lang) {
+    var zh = lang === "zh";
+    document.documentElement.lang = zh ? "zh-CN" : "en";
+    document.title = zh ? "Remember Me — 第一幕" : "Remember Me — Act I";
+
+    document.querySelectorAll("[data-en]").forEach(function (el) {
+      var v = el.getAttribute(zh ? "data-zh" : "data-en");
+      if (v !== null) el.textContent = v;
+    });
+    document.querySelectorAll("[data-doc]").forEach(function (el) {
+      var key = el.getAttribute("data-doc");
+      el.setAttribute("href", BLOB + (zh && ZH[key] ? ZH[key] : key + ".md"));
+    });
+    document.querySelectorAll(".langbar button").forEach(function (b) {
+      b.setAttribute("aria-pressed",
+        String(b.getAttribute("data-set-lang") === (zh ? "zh" : "en")));
+    });
+    try { localStorage.setItem("rm-lang", zh ? "zh" : "en"); } catch (e) {}
+  }
+
+  document.querySelectorAll(".langbar button").forEach(function (b) {
+    b.addEventListener("click", function () { apply(b.getAttribute("data-set-lang")); });
+  });
+
+  var q = new URLSearchParams(location.search).get("lang");
+  var saved = null;
+  try { saved = localStorage.getItem("rm-lang"); } catch (e) {}
+  // English is the default; an explicit ?lang= wins over the stored choice
+  apply(q === "zh" || q === "zh-CN" ? "zh" : (q === "en" ? "en" : (saved === "zh" ? "zh" : "en")));
+})();
+</script>
 
 </body>
 </html>

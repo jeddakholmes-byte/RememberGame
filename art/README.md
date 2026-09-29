@@ -1,156 +1,158 @@
-# 美工素材指南
+**English** · [简体中文](README.zh-CN.md)
 
-这个文件夹是给你看的。你要改的所有素材都在 `game/img/` 和 `game/audio/` 里，其他文件夹不用碰。
+# Art asset guide
 
-先在浏览器里打开这两张图，30 秒就能看懂规则：
+This folder is for you. Everything you need to change lives in `game/img/` and `game/audio/`; you do not need to touch any other folder.
 
-- [`specs/grid_rules.png`](specs/grid_rules.png) — 格子怎么分
-- [`specs/faces_grace.png`](specs/faces_grace.png) — 一张真实的对照表长这样
+Open these two images in a browser first — the rules make sense in about 30 seconds:
+
+- [`specs/grid_rules.png`](specs/grid_rules.png) — how the grid is divided
+- [`specs/faces_grace.png`](specs/faces_grace.png) — what a real reference sheet looks like
 
 ---
 
-## 1. 素材放在哪、要求是什么
+## 1. Where assets go and what they must be
 
-| 素材类型 | 放在哪 | 文件尺寸 | 格子 | 命名 | 备注 |
+| Asset type | Where it goes | File size | Grid | Naming | Notes |
 |---|---|---|---|---|---|
-| 人物行走图（单人） | `game/img/characters/` | **144 × 192** | 3 列 × 4 行，每格 48×48 | 前面加 `$`，如 `$RM_Grace.png` | `$` 表示"这张图只有一个人" |
-| 人物行走图（多人） | `game/img/characters/` | **576 × 384** | 4 人横排 × 2 人竖排，每人 144×192 | 不加 `$`，如 `RM_Family.png` | 一张图装 8 个角色 |
-| 人物脸图 | `game/img/faces/` | **576 × 288** | 4 列 × 2 行，每格 144×144 | `RM_Face_<角色>.png` | 一张图 8 个表情，编号 0–7 |
-| 背景远景图 | `game/img/parallaxes/` | 自由（现在用 **1152 × 864**） | 无 | 前面加 `!`，如 `!RM_Cemetery.png` | `!` 表示"不要平铺"；整张地图的底图 |
-| 全屏插图（道具特写等） | `game/img/pictures/` | **816 × 624** | 无 | `RM_<物件>.png` | 墓碑特写、遗物箱 |
-| 标题画面 | `game/img/titles1/` | **816 × 624** | 无 | `RM_Title.png` | |
-| 地图碰撞层 | `game/img/tilesets/` | 48 的整数倍 | 每格 48×48 | `RM_Collision_A5.png` | **不用重画**，见第 5 节 |
-| 音乐 | `game/audio/bgm/` | — | — | `RM_<名字>` | **必须同时放 `.ogg` 和 `.m4a`** |
-| 环境音 | `game/audio/bgs/` | — | — | `RM_<名字>` | 同上 |
-| 音效 | `game/audio/se/` | — | — | `RM_<名字>` | 同上 |
+| Character sprite (single) | `game/img/characters/` | **144 × 192** | 3 columns × 4 rows, 48×48 per cell | prefix with `$`, e.g. `$RM_Grace.png` | `$` means "this sheet holds one person" |
+| Character sprite (multiple) | `game/img/characters/` | **576 × 384** | 4 characters across × 2 characters down, 144×192 each | no `$`, e.g. `RM_Family.png` | one sheet holds 8 characters |
+| Character face set | `game/img/faces/` | **576 × 288** | 4 columns × 2 rows, 144×144 per cell | `RM_Face_<character>.png` | 8 expressions per sheet, numbered 0–7 |
+| Parallax background | `game/img/parallaxes/` | free (currently **1152 × 864**) | none | prefix with `!`, e.g. `!RM_Cemetery.png` | `!` means "do not tile"; this is the base image for a whole map |
+| Full-screen picture (item close-ups and so on) | `game/img/pictures/` | **816 × 624** | none | `RM_<thing>.png` | headstone close-up, keepsake box |
+| Title screen | `game/img/titles1/` | **816 × 624** | none | `RM_Title.png` | |
+| Map collision layer | `game/img/tilesets/` | a multiple of 48 | 48×48 per cell | `RM_Collision_A5.png` | **do not redraw this**, see section 5 |
+| Music | `game/audio/bgm/` | — | — | `RM_<name>` | **must ship as both `.ogg` and `.m4a`** |
+| Ambient sound | `game/audio/bgs/` | — | — | `RM_<name>` | same as above |
+| Sound effect | `game/audio/se/` | — | — | `RM_<name>` | same as above |
 
-一共就这么多。**没有专门的 UI 素材文件夹**，界面皮肤不用做（第 5 节）。
-
----
-
-## 2. 人物行走图：3 列 × 4 行
-
-以 `$RM_Grace.png`（144 × 192）为例，见 [`specs/sprites_grace.png`](specs/sprites_grace.png)：
-
-```
-第 1 行  朝下   →  第1帧   第2帧   第3帧
-第 2 行  朝左   →  第1帧   第2帧   第3帧
-第 3 行  朝右   →  第1帧   第2帧   第3帧
-第 4 行  朝上   →  第1帧   第2帧   第3帧
-```
-
-- **行顺序固定是下、左、右、上**，不能调换。
-- **每行中间那一帧是站立姿势**，游戏静态站着时就用它。走路动画按 1→2→3→2 循环。
-- 格子是 48×48，所以 3×4 的图 = 144×192。多一个像素就会串格。
-- `$` 前缀不能丢。丢了游戏会以为这张图装 8 个角色，然后把画面切成一大片。
-
-**多人图**（`RM_Family.png`，576 × 384）是 4 个角色横排、2 排，共 8 个，排列方式和单人的一样，只是并排放。每个角色占 144×192。目前妈妈用第 2 个（索引 1）、爸爸用第 1 个（索引 0）、奶奶用第 3 个（索引 2）。
+That is the whole list. **There is no separate UI asset folder** and you do not need to make a window skin (section 5).
 
 ---
 
-## 3. 人物脸图：4 列 × 2 行，索引 0–7
+## 2. Character sprites: 3 columns × 4 rows
 
-对话时左边那格头像。文件 576 × 288，切成 8 个 144×144：
+Take `$RM_Grace.png` (144 × 192) as the example, see [`specs/sprites_grace.png`](specs/sprites_grace.png):
 
 ```
-上排   0    1    2    3
-下排   4    5    6    7
+row 1  facing down   →  frame 1   frame 2   frame 3
+row 2  facing left   →  frame 1   frame 2   frame 3
+row 3  facing right  →  frame 1   frame 2   frame 3
+row 4  facing up     →  frame 1   frame 2   frame 3
 ```
 
-**编号从左到右、从上到下。** 剧本里写的就是这个编号，所以表情的排列顺序有意义——你换了某个格子的表情，游戏里对应的台词也会跟着换。
+- **The row order is fixed: down, left, right, up.** You cannot swap it.
+- **The middle frame of each row is the standing pose**, used whenever the character stands still. The walk animation cycles 1→2→3→2.
+- Cells are 48×48, so a 3×4 sheet is 144×192. One extra pixel and the cells bleed into each other.
+- Do not lose the `$` prefix. Without it the game treats the sheet as holding 8 characters and cuts the sprite into one large block.
 
-每个角色的真实对照表（灰框 = 画好了但还没用到，绿框 = 剧本已经在用）：
+**A multi-character sheet** (`RM_Family.png`, 576 × 384) holds 4 characters across and 2 rows, 8 in total. Each one is laid out exactly like a single sheet, just side by side. Every character takes 144×192. Right now Mom uses the second one (index 1), Dad the first (index 0) and Grandma the third (index 2).
 
-| 角色 | 文件 | 对照表 | 目前在用的表情 |
+---
+
+## 3. Character face sets: 4 columns × 2 rows, indexes 0–7
+
+The portrait on the left of a message box. The file is 576 × 288, cut into 8 cells of 144×144:
+
+```
+top row      0    1    2    3
+bottom row   4    5    6    7
+```
+
+**Numbering runs left to right, top to bottom.** The script refers to these numbers, so the order of the expressions matters — change the expression in one cell and the matching lines in the game change with it.
+
+The real reference sheet for each character (grey box = drawn but not used yet, green box = already used by the script):
+
+| Character | File | Reference sheet | Expressions in use |
 |---|---|---|---|
-| Grace（主角） | `RM_Face_Grace.png` | [看](specs/faces_grace.png) | 2、3、5、7 |
-| Mom | `RM_Face_Mom.png` | [看](specs/faces_mom.png) | 1、2、3、6 |
-| Dad | `RM_Face_Dad.png` | [看](specs/faces_dad.png) | 1、2、4、5、6、7 |
-| Grandma | `RM_Face_Grandma.png` | [看](specs/faces_grandma.png) | 2、4 |
-| Grandpa | `RM_Face_Grandpa.png` | [看](specs/faces_grandpa.png) | 6 |
-| Aunt | `RM_Face_Aunt.png` | [看](specs/faces_aunt.png) | 2 |
-| Uncle James | `RM_Face_UncleJames.png` | [看](specs/faces_unclejames.png) | 0 |
+| Grace (protagonist) | `RM_Face_Grace.png` | [view](specs/faces_grace.png) | 2, 3, 5, 7 |
+| Mom | `RM_Face_Mom.png` | [view](specs/faces_mom.png) | 1, 2, 3, 6 |
+| Dad | `RM_Face_Dad.png` | [view](specs/faces_dad.png) | 1, 2, 4, 5, 6, 7 |
+| Grandma | `RM_Face_Grandma.png` | [view](specs/faces_grandma.png) | 2, 4 |
+| Grandpa | `RM_Face_Grandpa.png` | [view](specs/faces_grandpa.png) | 6 |
+| Aunt | `RM_Face_Aunt.png` | [view](specs/faces_aunt.png) | 2 |
+| Uncle James | `RM_Face_UncleJames.png` | [view](specs/faces_unclejames.png) | 0 |
 
-> **改了灰度框里的表情 = 改了一张暂时没人用的图。** 改了绿框里的 = 全游戏所有台词的表情都会变。动手前先在群里说一声。
+> **Changing an expression in a grey box means changing an image nobody uses yet.** Changing one in a green box changes every line in the game that uses that expression. Say so in the group chat before you start.
 
 ---
 
-## 4. 场景、道具、标题
+## 4. Scenes, items, title
 
-| 文件 | 尺寸 | 是什么 |
+| File | Size | What it is |
 |---|---|---|
-| `!RM_Cemetery.png` | 1152 × 864 | 墓园整张底图。地图上所有可见的东西都在这一张图里，地图本身只负责碰撞 |
-| `!RM_House.png` | 1152 × 864 | 闪回场景的室内底图，同上 |
-| `RM_Gravestone.png` | 816 × 624 | 看墓碑时弹出的全屏特写 |
-| `RM_Box.png` | 816 × 624 | 结局时的遗物箱特写 |
-| `RM_Title.png` | 816 × 624 | 标题画面 |
-| `icon/icon.png` | 128 × 128 | 浏览器标签页和桌面图标 |
+| `!RM_Cemetery.png` | 1152 × 864 | the whole cemetery base image. Everything visible on the map is in this one image; the map itself only handles collision |
+| `!RM_House.png` | 1152 × 864 | the interior base image for the flashback scene, otherwise the same |
+| `RM_Gravestone.png` | 816 × 624 | the full-screen close-up shown when you look at the headstone |
+| `RM_Box.png` | 816 × 624 | the keepsake box close-up at the ending |
+| `RM_Title.png` | 816 × 624 | title screen |
+| `icon/icon.png` | 128 × 128 | browser tab and desktop icon |
 
-两张远景图是**满屏铺开的整张图**，不是拼图块，所以怎么画都行，只要构图对。
+The two parallax images are **single images spread across the whole screen**, not tiles, so you can draw them however you like as long as the composition works.
 
 ---
 
-## 5. 不用重画的东西
+## 5. Things you do not need to redraw
 
-这几样是引擎自带的，改它们只会把游戏弄坏，不要动：
+These come with the engine. Changing them only breaks the game, so leave them alone:
 
-| 文件 | 为什么不要动 |
+| File | Why you should not touch it |
 |---|---|
-| `game/img/system/Window.png` | 对话框和菜单的九宫格皮肤，切图位置是写死在引擎里的 |
-| `game/img/system/IconSet.png` | 图标集，一个格子一个图标，位置和道具编号绑定 |
-| `game/img/tilesets/` 里的图块 | 只有 `RM_Collision_A5.png` 和 `RM_Empty_B.png` 是我们自己的：一个画了"能走 / 不能走"的隐形标记，一个是故意留空的。地图的美术全在远景图里 |
-| `game/img/animations/`、`battlebacks*/`、`enemies/`、`sv_*/` | 战斗用的，这个游戏没有战斗，全是引擎自带的库存 |
-| `game/fonts/` | 字体，换字体是另一件事 |
+| `game/img/system/Window.png` | the nine-slice window skin for message boxes and menus; the slice positions are hard-coded in the engine |
+| `game/img/system/IconSet.png` | the icon set, one icon per cell, where the position is tied to the item number |
+| the tiles in `game/img/tilesets/` | only `RM_Collision_A5.png` and `RM_Empty_B.png` are ours: one draws invisible "walkable / not walkable" marks, the other is deliberately blank. All the map art is in the parallax images |
+| `game/img/animations/`, `battlebacks*/`, `enemies/`, `sv_*/` | used by combat. This game has no combat; these are all stock engine files |
+| `game/fonts/` | fonts. Changing fonts is a separate job |
 
-写剧本时屏幕底部的互动提示（`Enter / Space: ...`）是代码画的，不是图片，也不用做素材。
-
----
-
-## 6. 两条不能违反的规矩
-
-**1. 已有文件不要改名、不要删除。** 游戏里是按文件名的字符串去找图的。`$RM_Aunt.png` 改成 `RM_Aunt.png` 或 `aunt_v2.png`，游戏不会报错，只会**静默地什么都不显示**，很难查。
-
-**2. 尺寸必须精确。** 差一个像素就会串格：脸图会露出隔壁表情的半张脸，行走图会变成一大片或者只有半个人。
-
-要加新素材，用**新的文件名**，不要覆盖旧的。
+The interaction hint at the bottom of the screen (`Enter / Space: ...`) is drawn by code, not an image, and needs no asset.
 
 ---
 
-## 7. 交付流程
+## 6. Two rules you must not break
 
-1. **先放到 [`incoming/`](incoming/) 里**，不要直接扔进 `game/`。
-2. 按下面的规则命名，这样别人一眼知道这是什么、给谁用：
-   - 脸图：`RM_Face_<角色名>.png` → 例：`RM_Face_Grace.png`
-   - 单人行走图：`$RM_<角色名>.png` → 例：`$RM_Grace.png`
-   - 场景/道具：`RM_<物件名>.png` → 例：`RM_Gravestone.png`
-   - 音频：`RM_<用途>`，`.ogg` 和 `.m4a` 两个都要 → 例：`RM_DoorCreak.ogg` + `RM_DoorCreak.m4a`
-3. 在群里说一句"交了 XX 素材"，最好带上这张图是替换哪一句台词或哪个场景。
-4. 由负责工程的人放进 `game/` 对应目录，**然后必须跑一遍游戏确认**（改素材不会自动生效，要重新加载）。
+**1. Do not rename or delete existing files.** The game looks up images by filename string. If you change `$RM_Aunt.png` to `RM_Aunt.png` or `aunt_v2.png`, the game throws no error — it just **silently shows nothing**, which is hard to trace.
 
-**新文件名也要同步告诉写剧本的人。** 一张新脸图不接进对话事件，游戏里是看不到的。
+**2. Sizes must be exact.** One pixel out and the cells bleed: a face set shows half of the neighbouring expression, a sprite sheet becomes one large block or half a person.
+
+To add new art, use a **new filename**. Do not overwrite the old one.
 
 ---
 
-## 8. 加一个新角色的完整清单
+## 7. Handover process
 
-1. 画行走图 144×192，放到 `game/img/characters/`，文件名 `$RM_<角色>.png`
-2. 画脸图 576×288，放到 `game/img/faces/`，文件名 `RM_Face_<角色>.png`
-3. 在 RPG Maker MV 里打开 `game/Game.rpgproject`
-4. 在地图上新建事件，图像选 `$RM_<角色>`
-5. 在事件里插一条「显示文字」，脸图选 `RM_Face_<角色>`，填索引号
-6. 测试：**从 New Game 开始**，不要读旧存档
-7. 确认没有出现"一大片"、"半张脸"、"隔壁表情串格"
+1. **Put it in [`incoming/`](incoming/) first.** Do not drop it straight into `game/`.
+2. Name it by the rules below, so anyone can see at a glance what it is and who it is for:
+   - Face set: `RM_Face_<character name>.png` → e.g. `RM_Face_Grace.png`
+   - Single-character sprite: `$RM_<character name>.png` → e.g. `$RM_Grace.png`
+   - Scene / item: `RM_<thing name>.png` → e.g. `RM_Gravestone.png`
+   - Audio: `RM_<purpose>`, both `.ogg` and `.m4a` → e.g. `RM_DoorCreak.ogg` + `RM_DoorCreak.m4a`
+3. Say "handed in XX" in the group chat, and say which line or scene the image replaces if you can.
+4. Whoever owns the project copies it into the right folder under `game/`, **then must play through to confirm it** (asset changes do not take effect on their own; the game has to reload).
 
-（事件怎么建、索引填几号，问写剧本的人或者看 [`../docs/GAME_REFERENCE.md`](../docs/GAME_REFERENCE.md)。）
+**Tell the script writer about any new filename too.** A new face set is invisible in the game until someone wires it into a message event.
 
 ---
 
-## 9. 交付前自检
+## 8. Full checklist for adding a new character
 
-- [ ] 文件放在对的那个文件夹里了
-- [ ] 尺寸和上面对得上（行走图 144×192，脸图 576×288，插图 816×624）
-- [ ] 背景是透明的 PNG（脸图和行走图必须是）
-- [ ] `$` 和 `!` 前缀没丢
-- [ ] 没有改过任何已有文件的名字
-- [ ] 音频 `.ogg` 和 `.m4a` 两份都齐
-- [ ] 已经在游戏里实际看过效果了
+1. Draw a 144×192 sprite sheet, put it in `game/img/characters/`, filename `$RM_<character>.png`
+2. Draw a 576×288 face set, put it in `game/img/faces/`, filename `RM_Face_<character>.png`
+3. Open `game/Game.rpgproject` in RPG Maker MV
+4. Create a new event on the map and pick `$RM_<character>` as the image
+5. Insert a "Show Text" command in the event, pick `RM_Face_<character>` as the face, and fill in the index number
+6. Test: **start from New Game**, do not load an old save
+7. Confirm you do not see "one large block", "half a face" or "the neighbouring expression bleeding in"
+
+(To find out how to build the event and which index to use, ask the script writer or read [`../docs/GAME_REFERENCE.md`](../docs/GAME_REFERENCE.md).)
+
+---
+
+## 9. Self-check before handover
+
+- [ ] the file is in the right folder
+- [ ] the size matches the table above (sprites 144×192, face sets 576×288, pictures 816×624)
+- [ ] the background is a transparent PNG (face sets and sprites must be)
+- [ ] the `$` and `!` prefixes are not missing
+- [ ] no existing file has been renamed
+- [ ] audio has both the `.ogg` and the `.m4a`
+- [ ] you have actually looked at the result in the game

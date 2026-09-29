@@ -1,3 +1,5 @@
+**English** · [简体中文](FILE_GUIDE.zh-CN.md)
+
 # File guide
 
 Every file and folder in this repository, what it does, and whether you are allowed to touch it.

@@ -1,30 +1,32 @@
-# 新素材投稿区 incoming/
+**English** · [简体中文](README.zh-CN.md)
 
-画好的素材先放这里，**不要直接扔进 `game/`**。这样做有两个好处：`game/` 里永远是能跑的干净版本；谁交了什么都看得见。
+# New asset submission area incoming/
 
-## 命名
+Put finished art here first. **Do not drop it straight into `game/`.** This does two things: `game/` always stays a clean, working build, and everyone can see who handed in what.
 
-| 素材 | 命名 | 例子 |
+## Naming
+
+| Asset | Naming | Example |
 |---|---|---|
-| 脸图 | `RM_Face_<角色名>.png` | `RM_Face_Grace.png` |
-| 单人行走图 | `$RM_<角色名>.png` | `$RM_Grace.png` |
-| 场景 / 道具 | `RM_<物件名>.png` | `RM_Gravestone.png` |
-| 音乐 / 音效 | `RM_<用途>`，`.ogg` 和 `.m4a` 两份 | `RM_DoorCreak.ogg`、`RM_DoorCreak.m4a` |
+| Face set | `RM_Face_<character name>.png` | `RM_Face_Grace.png` |
+| Single-character sprite | `$RM_<character name>.png` | `$RM_Grace.png` |
+| Scene / item | `RM_<thing name>.png` | `RM_Gravestone.png` |
+| Music / sound effect | `RM_<purpose>`, both `.ogg` and `.m4a` | `RM_DoorCreak.ogg`, `RM_DoorCreak.m4a` |
 
-尺寸和格子的硬性要求见上级目录的 [`../README.md`](../README.md)。**投稿也请遵守尺寸**——尺寸不对的图进不了游戏。
+The hard requirements for sizes and grids are in the parent folder's [`../README.md`](../README.md). **Follow the sizes when you submit too** — an image with the wrong size cannot go into the game.
 
-## 改名的情况
+## When you are replacing a version
 
-如果新素材是要**替换**已有的某一版（比如 `$RM_Grace.png` 重新画了一版），文件名带上日期，不要直接覆盖：
+If the new asset is meant to **replace** an existing version (say you redrew `$RM_Grace.png`), put the date in the filename and do not overwrite the old file:
 
 ```
 $RM_Grace_20261005.png
 ```
 
-这样旧版还在，能对比、能回滚。
+That way the old version is still there, so you can compare against it and roll back to it.
 
-## 交完之后
+## After you hand it in
 
-在群里说一声交了哪个素材、替换/新增的是哪一句台词或哪个场景。由负责工程的人复制进 `game/`，然后跑一遍游戏确认。
+Say in the group chat which asset you handed in and which line or scene it replaces or adds. Whoever owns the project copies it into `game/`, then plays through to confirm.
 
-**注意**：把一张新脸图放进 `game/img/faces/` 之后，游戏里还看不到它——还得有人在对话事件里把脸图指过去。所以新素材要同时告诉写剧本的人。
+**Note:** putting a new face set into `game/img/faces/` does not make it show up in the game — someone still has to point a message event at it. So tell the script writer about new art at the same time.

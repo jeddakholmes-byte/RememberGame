@@ -1,190 +1,192 @@
-# 剧本指南
+**English** · [简体中文](README.zh-CN.md)
 
-这个文件夹放剧本相关的东西。**游戏的最终文本不在这里，在工程的事件里**——但这么写、这么排版，是这里定的。
+# Script guide
 
-- [`ACT1_SCRIPT.md`](ACT1_SCRIPT.md) — 现有第一幕的完整文本，从工程数据自动导出。**这是只读的参考，改它不会改到游戏。**
-- [`drafts/`](drafts/) — 新剧本草稿放这里。
+This folder holds everything script-related. **The final text of the game is not here, it is in the events in the project** — but how you write it and how you lay it out is decided here.
+
+- [`ACT1_SCRIPT.md`](ACT1_SCRIPT.md) — the full text of the existing Act I, exported automatically from the project data. **This is a read-only reference; editing it does not change the game.**
+- [`drafts/`](drafts/) — new script drafts go here.
 
 ---
 
-## 1. 一条对白在游戏里长什么样
+## 1. What one line of dialogue looks like in the game
 
 ```
 ┌──────────────────────────────────────┐
-│ ┌────────┐  \C[4]GRACE\C[0]          │  ← 名字行（占一行）
-│ │        │  Everyone wore black today.│  ← 正文
-│ │ 脸图   │  Mom wore black. Dad wore  │
+│ ┌────────┐  \C[4]GRACE\C[0]          │  ← name line (takes one row)
+│ │        │  Everyone wore black today.│  ← body text
+│ │  face  │  Mom wore black. Dad wore  │
 │ │144×144 │  black.                    │
 │ └────────┘                            │
 └──────────────────────────────────────┘
 ```
 
-一个对话框最多 **4 行**，名字行占掉一行，所以**正文最多 3 行**。现有第一幕里：57 个对话框写 1 行正文，23 个写 2 行，只有 1 个写满 3 行。**默认写 1–2 行。**
+A message box holds at most **4 rows**, and the name line takes one of them, so **the body text is at most 3 rows**. In the existing Act I: 57 message boxes have 1 row of body text, 23 have 2, and only 1 fills all 3. **Default to 1–2 rows.**
 
-**每行控制在 40 个字符以内**（含空格和标点）。现在最长的一行是 41 个字符，已经贴边了。超过 40 会换行或者出框。
+**Keep every row under 40 characters** (spaces and punctuation included). The longest line right now is 41 characters, which is already on the edge. Past 40 it wraps or runs outside the box.
 
 ---
 
-## 2. 硬性格式
+## 2. Hard format
 
-**全英文。** 游戏界面、字幕、所有文本都是英文，中文进去就是乱码方框。
+**English only.** The game interface, subtitles and all text are in English; Chinese characters come out as garbled boxes.
 
-一条对白 = 三样东西：
+One line of dialogue is three things:
 
-| 部分 | 怎么写 |
+| Part | How to write it |
 |---|---|
-| 脸图 | 选哪张表、哪个索引，见第 4 节 |
-| 名字行 | `\C[n]名字\C[0]`，全大写。**旁白不写名字行。** |
-| 正文 | 纯英文，一行一句，别写长段落 |
+| Face | which sheet and which index — see section 4 |
+| Name line | `\C[n]NAME\C[0]`, all capitals. **Narration has no name line.** |
+| Body | plain English, one sentence per row, do not write long paragraphs |
 
-名字行的颜色码和脸图配套，见下一节。
+The colour code in the name line goes with the face set; see the next section.
 
 ---
 
-## 3. 颜色码
+## 3. Colour codes
 
-`\C[n]` 是换字色，`\C[0]` 换回默认色。**这是游戏里唯一的排版手段**，不要用空格或星号凑对齐。
+`\C[n]` switches the text colour and `\C[0]` switches it back to the default. **This is the only layout tool in the game** — do not pad with spaces or asterisks to fake alignment.
 
-| 说话人 | 颜色码 | 名字行写法 | 脸图 |
+| Speaker | Colour code | Name line | Face set |
 |---|---|---|---|
-| 旁白（第三人称观察） | `\C[7]` | **不写名字** | 可以不配脸图 |
+| Narration (third-person observation) | `\C[7]` | **no name** | a face set is optional |
 | Grace | `\C[4]` | `\C[4]GRACE\C[0]` | `RM_Face_Grace` |
 | Mom | `\C[6]` | `\C[6]MOM\C[0]` | `RM_Face_Mom` |
 | Dad | `\C[1]` | `\C[1]DAD\C[0]` | `RM_Face_Dad` |
 | Grandma | `\C[5]` | `\C[5]GRANDMA\C[0]` | `RM_Face_Grandma` |
 | Uncle James | `\C[3]` | `\C[3]UNCLE JAMES\C[0]` | `RM_Face_UncleJames` |
-| Aunt / Grandpa | `\C[7]` | **旁白，不写名字行** | 但要配脸图，让玩家知道这个人在场 |
+| Aunt / Grandpa | `\C[7]` | **narration, no name line** | but give them a face set so the player knows they are present |
 
-> Aunt 和 Grandpa 目前**没有台词**，只有旁人视角的一句话观察（"She holds a tissue in both hands."）。这是有意的，见第 5 节。
+> Aunt and Grandpa currently **have no lines**, only a one-sentence observation from someone else's point of view ("She holds a tissue in both hands."). This is deliberate; see section 5.
 
 ---
 
-## 4. 表情索引
+## 4. Expression indexes
 
-每个角色的脸图有 8 个格子，编号 0–7（上排 0–3，下排 4–7）。**每个角色哪一号是什么表情，去美工那边的对照表看**：
+Each character's face set has 8 cells, numbered 0–7 (top row 0–3, bottom row 4–7). **To find out which number is which expression for each character, look at the art team's reference sheets**:
 
 - Grace → [`../art/specs/faces_grace.png`](../art/specs/faces_grace.png)
-- 其他角色同理，在 [`../art/`](../art/) 里
+- Other characters work the same way and are in [`../art/`](../art/)
 
-**写剧本时要写"索引几号"，不是写"要一个难过的表情"。** 现在各角色实际用到的索引：
+**When you write the script, write "index 3", not "I want a sad expression".** The indexes actually in use:
 
-| 角色 | 在用 | 备注 |
+| Character | In use | Notes |
 |---|---|---|
-| Grace | 2、3、5、7 | 3 是默认表情，占了 22 次 |
-| Mom | 1、2、3、6 | |
-| Dad | 1、2、4、5、6、7 | 用得最多 |
-| Grandma | 2、4 | |
-| Grandpa | 6 | 唯一一句 |
-| Aunt | 2 | 唯一一句 |
-| Uncle James | 0 | 唯一一句 |
+| Grace | 2, 3, 5, 7 | 3 is the default expression, used 22 times |
+| Mom | 1, 2, 3, 6 | |
+| Dad | 1, 2, 4, 5, 6, 7 | used the most |
+| Grandma | 2, 4 | |
+| Grandpa | 6 | its only line |
+| Aunt | 2 | its only line |
+| Uncle James | 0 | its only line |
 
-如果某个情绪没有合适的格子，先跟美工说要加哪个编号的表情，**不要临时拿别的格子凑**——那个格子的表情可能别的台词在用。
+If an emotion has no suitable cell, ask the art team to add an expression at a given number first. **Do not borrow another cell as a stopgap** — that cell's expression may already be in use by other lines.
 
 ---
 
-## 5. 角色语气
+## 5. Character voice
 
-这是从现有第一幕里归纳出来的，新写的内容要贴着它走。
+This is generalised from the existing Act I. New writing has to follow it.
 
-**Grace（7 岁，第一人称观察）**
-句子短、具体、能看到画面。先描述再理解，常常停在"我不懂"上，不解释情绪。
+**Grace (seven years old, first-person observation)**
+Short, concrete sentences that let you see the picture. She describes before she understands, often stopping at "I don't understand", and she does not explain the emotion.
 > "Everyone wore black today. Mom wore black. Dad wore black."
 > "Dad's wiping his face."
 > "I don't understand."
 
-**Mom（务实、回避、保护）**
-用一个短句把话题移开，不正面回答。
+**Mom (practical, evasive, protective)**
+One short sentence moves the subject away. She never answers directly.
 > "In a little while."
 > "I don't know, sweetheart."
 > "When we get home. Let's keep it dry."
 
-**Dad（话最少）**
-能一个字就一个字。全篇唯一一句全大写台词属于他——分贝就是他崩溃的信号，不要滥用大写。
+**Dad (says the least)**
+One word when one word will do. The only all-capitals line in the whole script is his — volume is his signal for breaking down, so do not overuse capitals.
 > "..."
 > "A little."
 > "Because I miss Grandma."
 > "I CAN'T DO THIS AGAIN."
 
-**Grandma（重复、坚持、认错人）**
-闪回里她在重复同一件事，并叫错对象。台词短、重复、词不达意。
+**Grandma (repetitive, insistent, confused about who she is talking to)**
+In the flashback she repeats the same thing and calls the wrong person by name. Her lines are short, repeated and imprecise.
 > "I need to go home." → "No." → "Grace?" → "Let me go home!"
 
-**Uncle James（一句，给许可）**
+**Uncle James (one line, giving permission)**
 > "Take your time, Grace."
 
-**Aunt / Grandpa（只有观察，没有台词）**
-他们是被 Grace 看到的人，不是说话的人。**不要给他们加台词**，也不要加疾病解释或任务说明。
+**Aunt / Grandpa (observation only, no lines)**
+They are people Grace sees, not people who speak. **Do not give them lines**, and do not add explanations of the illness or task instructions.
 
-**旁白**用 `\C[7]`，第二人称不存在，永远是 Grace 的眼睛在看。
-
----
-
-## 6. 三条内容上的约定
-
-1. **不解释病、不科普。** 这是一个孩子看到的东西，不是说明文。奶奶的阿尔兹海默症从头到尾没有被点破。
-2. **不加任务和提示。** 没有"去和爸爸说话"这种指令式文本，只有观察。
-3. **不要写"谁说的"以外的说明。** 括号里的情绪提示、舞台指示都进不了游戏，写了对不上。要表达情绪就改画面（动作、音效、表情索引）。
+**Narration** uses `\C[7]`. There is no second person; it is always Grace's eyes watching.
 
 ---
 
-## 7. 模板
+## 6. Three content rules
 
-新写一段就照这个抄：
+1. **Do not explain the illness and do not teach.** This is what a child sees, not an information sheet. Grandma's Alzheimer's is never named, from start to finish.
+2. **Do not add tasks or hints.** There is no instructional text such as "go and talk to Dad" — only observation.
+3. **Do not write anything other than who is speaking.** Emotion notes in brackets and stage directions never make it into the game, and if you write them they will not match. To express emotion, change the picture instead (movement, sound effect, expression index).
+
+---
+
+## 7. Template
+
+Copy this when you write a new section:
 
 ```text
-【场景】Act I 墓园 —— 主墓碑前
-【触发】调查墓碑
-【需要素材】脸图 RM_Face_Grace，索引 3、5
+[Scene] Act I cemetery — in front of the main headstone
+[Trigger] Examine the headstone
+[Assets needed] face set RM_Face_Grace, indexes 3, 5
 
-框 1
-  脸图：RM_Face_Grace / 索引 3
-  名字行：\C[4]GRACE\C[0]
-  正文：That's Grandma's name.
-       Mom taught me to read it.
+Box 1
+  Face: RM_Face_Grace / index 3
+  Name line: \C[4]GRACE\C[0]
+  Body: That's Grandma's name.
+        Mom taught me to read it.
 
-框 2
-  脸图：RM_Face_Grace / 索引 5
-  名字行：\C[4]GRACE\C[0]
-  正文：She knew my name then.
+Box 2
+  Face: RM_Face_Grace / index 5
+  Name line: \C[4]GRACE\C[0]
+  Body: She knew my name then.
 
-框 3（旁白）
-  脸图：无
-  正文：\C[7]Dad's wiping his face.
+Box 3 (narration)
+  Face: none
+  Body: \C[7]Dad's wiping his face.
 ```
 
-写之前先标【场景】和【触发】——不写清楚这几句是在什么时候出现的，做事件的人只能猜。
+Mark [Scene] and [Trigger] before you write — if it is not clear when these lines appear, whoever builds the event can only guess.
 
 ---
 
-## 8. 草稿放哪、怎么命名
+## 8. Where drafts go and how to name them
 
-草稿放 [`drafts/`](drafts/)，命名：
+Drafts go in [`drafts/`](drafts/). Naming:
 
 ```
-ACT2_<场景名>_script.md        例：ACT2_Attic_script.md
+ACT2_<scene name>_script.md        e.g. ACT2_Attic_script.md
 ```
 
-一个场景一个文件，不要所有人往同一个文件里写。定稿之后由一个人合并进工程。
+One file per scene. Do not have everyone writing into the same file. Once it is final, one person merges it into the project.
 
-**改已有台词的规矩**：不要直接改 `ACT1_SCRIPT.md`（那个文件是导出的，会被覆盖）。要改现有台词，在草稿里写清楚"原文 / 改成"，然后交给做事件的人在工程里改。
+**Rule for changing existing lines:** do not edit `ACT1_SCRIPT.md` directly (that file is exported and will be overwritten). To change an existing line, write "original / changed to" clearly in a draft, then give it to whoever builds events to change in the project.
 
 ---
 
-## 9. 交付前自检
+## 9. Self-check before handover
 
-- [ ] 全英文，没有一个中文字符
-- [ ] 每个框正文不超过 3 行，每行不超过 40 个字符
-- [ ] 名字行写法正确（全大写 + `\C[n]...\C[0]`），旁白不写名字行
-- [ ] 脸图索引号是从对照表里查出来的，不是随手写的
-- [ ] 标了【场景】和【触发】，做事件的人知道这几句什么时候出现
-- [ ] 没有给别人加台词（Aunt、Grandpa 保持只有观察）
-- [ ] 没有解释疾病、没有指令式提示
-- [ ] 用到的表情索引，美工那边都已经画好了
+- [ ] it is all English, with no Chinese characters at all
+- [ ] every box has at most 3 rows of body text and at most 40 characters per row
+- [ ] the name line is written correctly (all capitals + `\C[n]...\C[0]`), and narration has no name line
+- [ ] face indexes were looked up in the reference sheets, not written from memory
+- [ ] [Scene] and [Trigger] are marked, so the event builder knows when these lines appear
+- [ ] no lines were given to other characters (Aunt and Grandpa stay observation-only)
+- [ ] the illness is not explained and there are no instructional hints
+- [ ] every expression index you used has already been drawn by the art team
 
 ---
 
-## 10. 参考
+## 10. References
 
-- 现有第一幕完整文本：[`ACT1_SCRIPT.md`](ACT1_SCRIPT.md)
-- 哪句话在哪个事件里、开关怎么走：[`../docs/GAME_REFERENCE.md`](../docs/GAME_REFERENCE.md)
-- 脸图长什么样：[`../art/`](../art/)
+- the full text of the existing Act I: [`ACT1_SCRIPT.md`](ACT1_SCRIPT.md)
+- which line is in which event and how the switches run: [`../docs/GAME_REFERENCE.md`](../docs/GAME_REFERENCE.md)
+- what the face sets look like: [`../art/`](../art/)

@@ -1,3 +1,5 @@
+**English** · [简体中文](DEPLOY.zh-CN.md)
+
 # Publish and update the site
 
 The repository is <https://github.com/jeddakholmes-byte/RememberGame> and the published site is <https://jeddakholmes-byte.github.io/RememberGame/>.

@@ -1,3 +1,5 @@
+**English** · [简体中文](VERIFICATION.zh-CN.md)
+
 # Verification record — does the build actually run?
 
 Before this repository was published, the shipped build in `game/` was run in a real browser and driven from **New Game** to the end of Act I. This file records exactly what was done, what was observed, and what was *not* tested.
