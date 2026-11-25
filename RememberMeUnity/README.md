@@ -33,6 +33,8 @@ Web builds require Web Build Support. Windows builds require Windows Build Suppo
 
 In Unity, **Remember Me → Build for GitHub Pages** writes both acts to `Build/GitHubPages/docs/`. The command-line entry point is `RememberMe.Editor.WebBuild.Build`, with `-customBuildPath`. The Windows entry point is `RememberMe.Editor.Act1Builder.Build`, which writes to `Build/Windows/`.
 
+From the repository root run `node tools/build-players.cjs "<Unity editor executable>"` to build Windows and WebGL in sequence. Zip the contents of Build/Windows together. Players extract the full ZIP and run RememberMe.exe.
+
 Builds call `Act1Builder.Assemble` to regenerate the Act I scene. Keep layout changes in the assembly script and commit the scene together with new assets and their `.meta` files.
 
 Run Windows route verification with `-remember-smoke -with-kitchen`. Add `-kitchen-capture` followed by a screenshot directory to capture images. Browser verification uses `QA/Verify-Web.cjs` and requires Node.js, Playwright, and Chrome or Chromium. See the [deployment guide](../docs/DEPLOY.md) for commands.

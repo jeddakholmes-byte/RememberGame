@@ -3,5 +3,10 @@
   "webRoot": "unity-v10",
   "sourceCommit": "98c6c90332df687d1013d8e7a5b972e5d95d9acd",
   "publishedUrl": "https://jeddakholmes-byte.github.io/RememberGame/unity-v10/",
-  "verification": "docs/handoff/2026-11-25-browser-verification.log"
+  "verification": "docs/handoff/2026-11-25-browser-verification.log",
+  "windows": {
+    "architecture": "x64",
+    "downloadUrl": "https://github.com/jeddakholmes-byte/RememberGame/releases/download/v10-windows-x64/RememberMe-v10-Windows-x64.zip",
+    "sha256": "5d779e3a45cd8cbd9611ef7bcf2ded4701d4e6445c6e0bea414404d201881c21"
+  }
 }

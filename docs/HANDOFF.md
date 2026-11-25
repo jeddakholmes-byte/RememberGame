@@ -22,7 +22,7 @@ Project documentation now provides 27 English/Chinese pairs, including the compl
 | Browser and public-entry evidence | [Full-route log](handoff/2026-11-25-browser-verification.log), [public-entry log](handoff/2026-11-25-public-verification.log) | Uploaded as concise verification records |
 | Archive routing evidence | [Eight-entry check](handoff/2026-11-25-archive-verification.log) | Browser redirects preserve query parameters and fragments |
 
-Windows executables, full build logs, caches and test screenshots reside in local directories such as RememberMeUnity/Build/. The repository provides Windows build and verification entry points. WebGL is the published v10 deliverable.
+[Download v10 for Windows x64](https://github.com/jeddakholmes-byte/RememberGame/releases/download/v10-windows-x64/RememberMe-v10-Windows-x64.zip). Extract the entire ZIP and run RememberMe.exe.
 
 ## November 24–25 changes
 
@@ -46,11 +46,9 @@ Browser verification covers A/D horizontal navigation, W/S vertical navigation, 
 - Play from both New Game and Kitchen. Record the fireplace's foot placement, kitchen threshold, undo and reopening recipe cards, resuming after pause, Grandma's escort and living-room entry.
 - For each report, record the version, reproduction steps, expected and actual behavior. Fix the relevant handler, repeat the route and include results in the PR.
 
-### 2. Build and verify the matching Windows release
+### 2. Windows hardware acceptance
 
-- Build the current main source for Windows. Run -remember-smoke -with-kitchen and manually check WASD and recipe undo.
-- Existing local Windows packages came from earlier iterations. Build a matching package from the current source for handoff.
-- Record the source commit, verification results and download location. Use the [deployment guide](DEPLOY.md).
+The desktop package uses v10 gameplay revision 98c6c90, the Unity 2022.3.20f1c1 compatibility build environment and Direct3D 11. The packaged player passed Act I, the chapter transition and the kitchen route under CrossOver on macOS. Check display, audio, WASD and recipe undo on native Windows hardware next.
 
 ### 3. Review the Act II draft and fence proposal
 

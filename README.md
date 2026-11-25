@@ -4,7 +4,7 @@
 
 A narrative game about Grace, her grandmother and family memories, made for CSS5190 Game Your Psychology at The Chinese University of Hong Kong, Shenzhen.
 
-[Play v10 · Acts I–II](https://jeddakholmes-byte.github.io/RememberGame/unity-v10/) · [Report playtest feedback](https://github.com/jeddakholmes-byte/RememberGame/issues/new) · [Contributing](CONTRIBUTING.md)
+[Play v10 · Acts I–II](https://jeddakholmes-byte.github.io/RememberGame/unity-v10/) · [Download for Windows x64](https://github.com/jeddakholmes-byte/RememberGame/releases/download/v10-windows-x64/RememberMe-v10-Windows-x64.zip) · [Report playtest feedback](https://github.com/jeddakholmes-byte/RememberGame/issues/new) · [Contributing](CONTRIBUTING.md)
 
 Start with the [handoff notes](docs/HANDOFF.md) for November 24–25 changes, uploaded materials, verification evidence and next tasks.
 

@@ -33,6 +33,8 @@
 
 Unity 菜单 **Remember Me → Build for GitHub Pages** 输出 `Build/GitHubPages/docs/`，包含两幕。命令行入口为 `RememberMe.Editor.WebBuild.Build`，并传入 `-customBuildPath`。Windows 命令行入口为 `RememberMe.Editor.Act1Builder.Build`，输出 `Build/Windows/`。
 
+从仓库根目录运行 `node tools/build-players.cjs "<Unity editor executable>"`，依次生成 Windows 和 WebGL。完整压缩 Build/Windows 文件夹。玩家将其全部解压后运行 RememberMe.exe。
+
 构建会调用 `Act1Builder.Assemble` 重新生成第一幕场景。布局改动同时维护装配脚本，提交场景与新增资源的 `.meta`。
 
 Windows 流程验证参数为 `-remember-smoke -with-kitchen`，可用 `-kitchen-capture` 加截图目录。网页验证使用 `QA/Verify-Web.cjs`，依赖 Node.js、Playwright 和 Chrome／Chromium。具体命令见[发布说明](../docs/DEPLOY.zh-CN.md)。

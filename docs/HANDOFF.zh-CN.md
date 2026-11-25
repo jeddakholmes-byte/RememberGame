@@ -22,7 +22,7 @@
 | 本轮浏览器与公开网页验证记录 | [完整流程日志](handoff/2026-11-25-browser-verification.log)、[公开入口日志](handoff/2026-11-25-public-verification.log) | 已补入可复核的简短记录 |
 | 本轮目录归档验证 | [八个历史入口验证](handoff/2026-11-25-archive-verification.log) | 保留查询参数与页面片段的浏览器跳转已通过 |
 
-本机 Windows 可执行文件、完整构建日志、缓存和测试截图保存在 RememberMeUnity/Build/ 等本地目录。仓库提供 Windows 构建和测试入口，当前 v10 的正式交付成品为 WebGL。
+[下载 v10 Windows x64](https://github.com/jeddakholmes-byte/RememberGame/releases/download/v10-windows-x64/RememberMe-v10-Windows-x64.zip)。完整解压后运行 RememberMe.exe。
 
 ## 昨天和今天完成的内容
 
@@ -46,11 +46,9 @@
 - 分别从 New Game 和 Kitchen 试玩。重点记录壁炉脚底位置、厨房门槛、卡片撤回与重开、暂停后继续、奶奶跟随及进客厅的观感。
 - 对反馈先记录版本、复现步骤、预期和实际行为，再修改对应脚本，补验同一路径。验收结果放进 PR。
 
-### 2. 构建与验证同版 Windows 包
+### 2. Windows 实机验收
 
-- 用当前 main 源码构建 Windows，运行 -remember-smoke -with-kitchen，并人工检查 WASD 和卡片撤回。
-- 当前本地旧 Windows 包与 v10 网页发布时间不同，接力时从当前源码重新构建。
-- 交付时记录提交号、验证结果和下载地址。构建方法见[发布说明](DEPLOY.zh-CN.md)。
+本次桌面包对应 v10 游戏提交 98c6c90，使用 Unity 2022.3.20f1c1 兼容构建环境与 Direct3D 11。已在 macOS 的 CrossOver 中运行成品，第一幕、换章和厨房结尾均通过自动通关检查。下一步在 Windows 真机检查显示、声音、WASD 和食谱撤回。
 
 ### 3. 核对第二幕剧本并评审围栏
 
