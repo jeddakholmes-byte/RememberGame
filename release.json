@@ -6,7 +6,7 @@
   "verification": "docs/handoff/2026-11-25-browser-verification.log",
   "windows": {
     "architecture": "x64",
-    "downloadUrl": "https://github.com/jeddakholmes-byte/RememberGame/releases/download/v10-windows-x64/RememberMe-v10-Windows-x64.zip",
+    "downloadUrl": "https://jeddakholmes-byte.github.io/RememberGame/windows-v10/",
     "sha256": "5d779e3a45cd8cbd9611ef7bcf2ded4701d4e6445c6e0bea414404d201881c21"
   }
 }

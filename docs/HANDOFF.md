@@ -22,7 +22,7 @@ Project documentation now provides 27 English/Chinese pairs, including the compl
 | Browser and public-entry evidence | [Full-route log](handoff/2026-11-25-browser-verification.log), [public-entry log](handoff/2026-11-25-public-verification.log) | Uploaded as concise verification records |
 | Archive routing evidence | [Eight-entry check](handoff/2026-11-25-archive-verification.log) | Browser redirects preserve query parameters and fragments |
 
-[Download v10 for Windows x64](https://github.com/jeddakholmes-byte/RememberGame/releases/download/v10-windows-x64/RememberMe-v10-Windows-x64.zip). Extract the entire ZIP and run RememberMe.exe.
+[Download v10 for Windows x64](https://jeddakholmes-byte.github.io/RememberGame/windows-v10/). Extract the entire ZIP and run RememberMe.exe.
 
 ## November 24–25 changes
 

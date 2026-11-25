@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Remember Me · Windows download</title>
+<style>
+body{background:#12211e;color:#f5ecd8;font:18px/1.55 Georgia,serif;max-width:38rem;margin:12vh auto;padding:1.5rem}h1{font-size:3rem;margin:0}button{font:inherit;padding:.65rem 1rem;background:#ecd7a5;color:#172420;border:0;border-radius:4px;cursor:pointer}button:disabled{opacity:.65}a{color:#ecd7a5}#status{min-height:1.5em}
+</style><main><h1>Remember Me</h1><p>Windows x64 · v10 · Acts I–II · 110 MiB</p>
+<button id="get">Download ZIP / 下载 Windows 版</button> <a id="save" hidden>Save ZIP / 保存</a><p id="status" role="status"></p>
+<p>Extract the entire ZIP, then open <strong>RememberMe.exe</strong>.</p><p lang="zh-CN">完整解压后运行 <strong>RememberMe.exe</strong>，可以离线游玩。</p>
+<a href="../unity-v10/">Play in browser / 在线试玩</a></main>
+<script>
+const button = document.querySelector('#get'), statusLine = document.querySelector('#status'), save = document.querySelector('#save');
+button.onclick = async () => {
+  button.disabled = true;
+  try {
+    const parts = [];
+    for (const name of ['package-a','package-b']) {
+      statusLine.textContent = 'Downloading / 下载中 ' + (parts.length + 1) + ' / 2…';
+      const response = await fetch('https://raw.githubusercontent.com/jeddakholmes-byte/RememberGame/d420c780fd81bb88fcf4b433a5aee77871ef2ad0/' + name);
+      if (!response.ok) throw Error('Download failed: HTTP ' + response.status);
+      parts.push(await response.arrayBuffer());
+    }
+    const blob = new Blob(parts, {type:'application/zip'});
+    const hash = await crypto.subtle.digest('SHA-256', await blob.arrayBuffer());
+    if (Array.from(new Uint8Array(hash), n => n.toString(16).padStart(2,'0')).join('') !== '5d779e3a45cd8cbd9611ef7bcf2ded4701d4e6445c6e0bea414404d201881c21') throw Error('Checksum mismatch');
+    save.href = URL.createObjectURL(blob); save.download = 'RememberMe-v10-Windows-x64.zip'; save.hidden = false;
+    save.click(); statusLine.textContent = 'Verified. Use Save ZIP to download again. / 已校验，可点击保存。';
+  } catch (error) { statusLine.textContent = error.message + ' · Please retry / 请重试'; button.disabled = false; }
+};
+</script></html>
