@@ -4,7 +4,7 @@
 
 围绕 Grace、奶奶和家庭记忆展开的叙事游戏，香港中文大学（深圳）CSS5190 Game Your Psychology 课程项目。
 
-[在线试玩 v10 · 第一、二幕](https://jeddakholmes-byte.github.io/RememberGame/unity-v10/) · [Windows x64 离线版下载](https://jeddakholmes-byte.github.io/RememberGame/windows-v10/) · [提交试玩反馈](https://github.com/jeddakholmes-byte/RememberGame/issues/new) · [参与协作](CONTRIBUTING.zh-CN.md)
+[在线试玩 v10 · 第一、二幕](https://jeddakholmes-byte.github.io/RememberGame/unity-v10/) · [Windows x64 离线版下载](https://github.com/jeddakholmes-byte/RememberGame/releases/download/v10-windows-x64/RememberMe-v10-Windows-x64.zip) · [提交试玩反馈](https://github.com/jeddakholmes-byte/RememberGame/issues/new) · [参与协作](CONTRIBUTING.zh-CN.md)
 
 **下一位协作者先读[接力说明](docs/HANDOFF.zh-CN.md)**，其中列出 11 月 24 日、25 日更新的上传状态、验证记录和下一步任务。
 

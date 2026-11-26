@@ -22,7 +22,7 @@
 | 本轮浏览器与公开网页验证记录 | [完整流程日志](handoff/2026-11-25-browser-verification.log)、[公开入口日志](handoff/2026-11-25-public-verification.log) | 已补入可复核的简短记录 |
 | 本轮目录归档验证 | [八个历史入口验证](handoff/2026-11-25-archive-verification.log) | 保留查询参数与页面片段的浏览器跳转已通过 |
 
-[下载 v10 Windows x64](https://jeddakholmes-byte.github.io/RememberGame/windows-v10/)。完整解压后运行 RememberMe.exe。
+[下载 v10 Windows x64](https://github.com/jeddakholmes-byte/RememberGame/releases/download/v10-windows-x64/RememberMe-v10-Windows-x64.zip)。完整解压后运行 RememberMe.exe。
 
 ## 昨天和今天完成的内容
 
