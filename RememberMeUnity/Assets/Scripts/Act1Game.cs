@@ -66,7 +66,8 @@ namespace RememberMe
                 return;
             }
             saveFile = qa ? "remember-me-qa" : "remember-me-act-one";
-            WebGLInput.captureAllKeyboardInput = false;
+            // Keep Unity's default keyboard capture: this player has no HTML text fields.
+            // Some editor versions omit WebGLModule from the generated player references.
             if (qa && Act1Story.TryRead(saveFile, out var prior) && prior.Stage == StoryStage.Complete)
                 Debug.Log("REMEMBER_WEB_SAVE_RELOADED");
 #else
@@ -340,7 +341,9 @@ namespace RememberMe
             HUD.ChapterCard(false);
             HUD.Picture(null);
             HUD.PresentationOpacity = 1;
-            yield return Say("Grace", "Everyone wore black today. Uncle James even put on a tie.", expression: Expression.Quiet);
+            yield return Say("Grace", "Everyone wore black today.", expression: Expression.Quiet);
+            yield return Delay(.45f);
+            yield return Say("Grace", "Even Uncle James wore a tie. He never wears ties.", expression: Expression.Quiet);
             FaceSpeaker(TargetInRoom(TargetId.Mom));
             yield return Say("Mom", "See the white flowers past the first crossing, on the right? That’s Grandma’s spot.");
             yield return Say("Mom", "You can go ahead. I’ll stay here by the gate.", expression: Expression.Warm);
@@ -482,7 +485,10 @@ namespace RememberMe
                     if (story.Stage == StoryStage.Farewell)
                     {
                         yield return Say("Grace", "Evelyn Hart. I can read it without Mom.");
-                        yield return Say("Grace", "Is that her? Her hair looks different. She knew my name then.", expression: Expression.Surprise);
+                        yield return Say("Grace", "Is that her? Her hair looks different.", expression: Expression.Surprise);
+                        yield return Delay(.65f);
+                        yield return Say("Grace", "She knew my name then.", expression: Expression.Quiet);
+                        yield return Delay(.85f);
                         HUD.Picture(null);
                         story.Stage = StoryStage.FindDad;
                         room.Dad.SetCrying(true);
@@ -510,7 +516,9 @@ namespace RememberMe
                         story.Stage = StoryStage.Complete;
                         HUD.Picture(null);
                         Song(music, null);
-                        yield return Say("Grace", "It’s quiet now. I think it’s time to go.", expression: Expression.Quiet);
+                        yield return Say("Grace", "I thought I might hear her in here.", expression: Expression.Quiet);
+                        yield return Delay(.55f);
+                        yield return Say("Grace", "But there's only the rain now. Mom's waiting for me.", expression: Expression.Quiet);
                     }
                     break;
                 case TargetId.Dad:
@@ -582,7 +590,10 @@ namespace RememberMe
                         yield return WindMusicBox();
                         story.Stage = StoryStage.FindStudy;
                         yield return ChangeRoom(RoomId.Hall);
-                        yield return Say("Grace", "I remember Grandma’s house. I can hear the song down the hall.", expression: Expression.Quiet);
+                        yield return Say("Grace", "Grandma's hallway. I remember it like this.", expression: Expression.Quiet);
+                        yield return Say("Grace", "A moment ago, I was by the bench...", expression: Expression.Concern);
+                        yield return Delay(.5f);
+                        yield return Say("Grace", "That song. It's coming from the back room.", expression: Expression.Quiet);
                     }
                     break;
                 case TargetId.ToStudy:
@@ -776,13 +787,14 @@ namespace RememberMe
 
         IEnumerator IntoBedroom()
         {
+            yield return Say("Grace", "The room slips away. I can hear the cemetery rain again.", expression: Expression.Quiet);
             yield return Fade(0, 1);
             HUD.Picture(WalkHomeInRain);
             ambience.volume = .18f;
             yield return Fade(1, 0);
             if (qa && (!WalkHomeInRain || !HUD.ShowsPicture(WalkHomeInRain)))
                 throw new InvalidOperationException("The walk home illustration did not open.");
-            yield return Say("Grace", "I remember the rain on Mom’s umbrella. The rest is a blur.", "05a-walk-home", Expression.Quiet);
+            yield return Say("Grace", "Later, Mom and I walked home under her umbrella.", "05a-walk-home", Expression.Quiet);
             yield return Fade(0, 1);
             HUD.Picture(null);
             HUD.ChapterCard(true);
@@ -809,9 +821,14 @@ namespace RememberMe
         IEnumerator Flashback()
         {
             yield return Say("Grace", "Dad?", "02a-grace-talk", Expression.Concern);
+            yield return Delay(.8f);
+            yield return Say("Grace", "Dad.", expression: Expression.Concern);
             yield return Say("Dad", "Hey, Gracie. Just give me a second.", "02a-dad-portrait");
             yield return Say("Grace", "Are you crying?");
+            yield return Delay(.55f);
             yield return Say("Dad", "Yeah. I miss her.", expression: Expression.Grief);
+            yield return Delay(.7f);
+            yield return Say("Grace", "I remember another evening at Grandma's house.", expression: Expression.Quiet);
             yield return ChangeRoom(RoomId.Flashback);
             room.Door.sprite = room.ClosedDoor;
             room.Grandma.transform.position = new Vector2(5.63f, 5.8f);
@@ -852,6 +869,7 @@ namespace RememberMe
             var grave = TargetInRoom(TargetId.Grave);
             Grace.LookAt(grave.FocusArt.transform.position);
             yield return Say("Grace", "He sounded so mad that night. I didn’t know he missed her this much.", expression: Expression.Grief);
+            yield return Delay(.8f);
             FaceSpeaker(TargetInRoom(TargetId.Mom));
             yield return Say("Mom", "Grace? When you’re ready, come see me by the bench. I found something of Grandma’s.");
         }

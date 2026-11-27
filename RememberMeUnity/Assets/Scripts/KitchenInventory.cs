@@ -14,7 +14,7 @@ namespace RememberMe
             public Room room;
             public Vector2 feet;
             public int ingredients, cards, baking, mixCount, shapedSlots, anchors, inspectedDoors, wrongDoors;
-            public bool photoSeen, sugarClueFound, looped, largestServed;
+            public bool photoSeen, sugarClueFound, looped, largestServed, flourSetOut;
         }
 
         void PauseChapter(string message = null)
@@ -60,7 +60,8 @@ namespace RememberMe
             var save = new ChapterSave { chapter = chapter, room = currentRoom, feet = grace.Feet,
                 ingredients = ingredients, cards = cards, baking = baking, mixCount = mixCount, shapedSlots = shapedSlots,
                 anchors = anchors, inspectedDoors = inspectedDoors, wrongDoors = wrongDoors, photoSeen = photoSeen,
-                sugarClueFound = sugarClueFound, looped = looped, largestServed = largestServed };
+                sugarClueFound = sugarClueFound, looped = looped, largestServed = largestServed,
+                flourSetOut = flourSetOut };
             PlayerPrefs.SetString(SaveKey, JsonUtility.ToJson(save));
             PlayerPrefs.Save();
         }
@@ -71,6 +72,7 @@ namespace RememberMe
             var save = JsonUtility.FromJson<ChapterSave>(PlayerPrefs.GetString(SaveKey));
             chapter = save.chapter;
             ingredients = save.ingredients; cards = save.cards; baking = save.baking;
+            flourSetOut = save.flourSetOut || chapter > Chapter.Ingredients;
             mixCount = save.mixCount; shapedSlots = save.shapedSlots; shapedCount = CountFinds(shapedSlots);
             anchors = save.anchors; inspectedDoors = save.inspectedDoors; wrongDoors = save.wrongDoors;
             photoSeen = save.photoSeen; sugarClueFound = save.sugarClueFound;

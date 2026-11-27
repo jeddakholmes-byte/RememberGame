@@ -30,6 +30,7 @@ namespace RememberMe
         static readonly int[] IngredientGroups = { FlourBit, ButterBit | EggsBit, SugarBit };
         static readonly string[] IngredientGroupNames = { "Flour", "Butter & eggs", "Sugar" };
         Texture2D ingredientArtwork;
+        SpriteRenderer flourOnCounter;
         readonly Button[] doughSlots = new Button[DoughPieces];
         readonly KitchenOval[] slotRims = new KitchenOval[DoughPieces];
         readonly KitchenOval[] slotDough = new KitchenOval[DoughPieces];
@@ -42,10 +43,11 @@ namespace RememberMe
             for (int i = 0; i < counterCards.Length; i++)
                 counterCards[i].enabled = currentRoom == Room.Kitchen && chapter == Chapter.Cards && (cards & (1 << i)) == 0;
             if (!kitchenCanvas) CreateKitchenCanvas();
+            flourOnCounter.enabled = currentRoom == Room.Kitchen && flourSetOut && chapter <= Chapter.Cards;
             Rect panel = hud.OverlayRoot.rect;
             float scale = Mathf.Min(panel.width / Width, panel.height / Height);
             kitchenCanvas.localScale = Vector3.one * scale;
-            bool showIngredients = chapter == Chapter.Ingredients && lines == null && choices == null;
+            bool showIngredients = chapter == Chapter.Ingredients && flourSetOut && !WaitingForBeat && lines == null && choices == null;
             bool showCraft = mixing || shaping;
             ingredientFolio.gameObject.SetActive(showIngredients);
             cardFolio.gameObject.SetActive(chapter == Chapter.Cards && lines == null && choices == null);
@@ -132,6 +134,8 @@ namespace RememberMe
             waterVeil.transform.SetAsFirstSibling();
 
             ingredientArtwork = LoadTexture("IngredientArtwork");
+            flourOnCounter = Prop("Flour beside the recipe", InventorySprite(ingredientArtwork,
+                new Rect(0, 0, ingredientArtwork.width / 3f, ingredientArtwork.height)), new Vector2(550, 292), 38, 48);
             ingredientFolio = KitchenFrame(kitchenCanvas, "Ingredient folio", new Rect(653, 27, 464, 169), false);
             ingredientTotal = KitchenText(ingredientFolio, "Ingredients", new Rect(17, 10, 430, 24),
                 "", 20, FolioInk, TextAnchor.MiddleLeft, true);

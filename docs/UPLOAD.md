@@ -26,7 +26,7 @@ staticChecks reports static verification. requiredChecks lists browser or gamepl
 ## Release layout
 
 - v10 is stored in unity-v10/. Earlier v2–v9 builds are in archive/web/.
-- Place future releases in releases/web/v11/, releases/web/v12/ and subsequent version directories.
+- Place future releases in unity-v11/, unity-v12/ and subsequent version directories.
 - release.json records the published version, build directory, source commit, URL and full verification record. Update it and the play entries after the new build passes verification.
 - Add each handoff's changes, verification and remaining tasks to HANDOFF.md and HANDOFF.zh-CN.md, with concise evidence.
 

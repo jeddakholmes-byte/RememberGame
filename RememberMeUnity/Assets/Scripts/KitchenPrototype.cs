@@ -97,6 +97,13 @@ namespace RememberMe
         string[] lines;
         Action afterDialogue;
         int line;
+        float beatTime;
+        Action afterBeat;
+        Action<float> duringBeat;
+        float beatDuration;
+        bool flourSetOut;
+        float memoryFade;
+        bool WaitingForBeat => afterBeat != null;
         int anchors; // Objects Grace has recognised on the return trip.
         bool showingFreshCookies, largestServed, sugarClueFound;
         float trayFocus;
@@ -277,6 +284,12 @@ namespace RememberMe
 
         void Restart()
         {
+            afterBeat = null;
+            duringBeat = null;
+            flourSetOut = false;
+            memoryFade = 0;
+            hud.Fade(0);
+            beatTime = 0;
             chapter = Chapter.Bedroom;
             looped = showingFreshCookies = largestServed = sugarClueFound = false;
             trayFocus = handCue = clockTime = doorFlicker = 0;
@@ -348,7 +361,10 @@ namespace RememberMe
                 new Target(576, 343, "Inspect the middle door", () => InspectDoor(Door.Curtains)),
                 new Target(836, 343, "Inspect the right door", () => InspectDoor(Door.Water)),
                 new Target(576, 781, "Back to the kitchen", () => Enter(Room.Kitchen), Reach.Threshold)
-            } : room == Room.Bedroom ? new[] {new Target(411, 487, "Open the keepsake box", OpenBox, Reach.Object)} : Array.Empty<Target>();
+            } : room == Room.Bedroom ? new[] {new Target(411, 487, "Open the keepsake box", OpenBox, Reach.Object)} :
+                room == Room.Parlor && chapter == Chapter.ReturnForGrandma
+                ? new[] {new Target(576, 781, "Back to the hallway", () => Enter(Room.Hall, new Vector2(576, 410)), Reach.Threshold)}
+                : Array.Empty<Target>();
             nearby = null;
 
         }
@@ -366,7 +382,8 @@ namespace RememberMe
                 {
                     hud.Fade(0);
                     transition = .45f;
-                    Say("Grace", Expression.Quiet, new[] {"The walk home is a blur. I barely remember coming upstairs."}, () => {
+                    Say("Grace", Expression.Quiet, new[] {"I'm in my room now. Mom left Grandma's box beside my bed.",
+                        "I keep thinking about the photograph inside."}, () => {
                         bedroomChime = 2.4f;
                         Play("RM_Chime", .26f);
                     });
@@ -383,6 +400,24 @@ namespace RememberMe
             bool simulatedConfirm = routeConfirm;
             bool confirm = StoryInput.ConfirmPressed || routeConfirm;
             routeCancel = routeConfirm = false;
+            if (WaitingForBeat)
+            {
+                motor.CanMove = false;
+                motor.SetInput(Vector2.zero, false, false);
+                // Discard clicks made during silence instead of carrying them into the next line.
+                hud.TakeContinue();
+                beatTime = Mathf.Max(0, beatTime - dt);
+                duringBeat?.Invoke(1f - beatTime / beatDuration);
+                if (beatTime == 0)
+                {
+                    var next = afterBeat;
+                    afterBeat = null;
+                    duringBeat = null;
+                    choiceFrame = Time.frameCount;
+                    next();
+                }
+                return;
+            }
             if (Input.GetKeyDown(KeyCode.I) && choices == null && lines == null && !mixing && !shaping)
             {
                 ShowInventory();
@@ -746,17 +781,44 @@ namespace RememberMe
             Offer("Inside the keepsake box", new[] {"Lift the old photograph", "Wind the little music box"}, index => {
                 if (index == 1) { Play("RM_Chime", .35f); Say("Grace", Expression.Quiet, new[] {"Just a few notes. Then it stops."}, OpenBox); return; }
                 showPhoto = true;
-                Say("Grace", Expression.Reflective, new[] {"That's me. And Grandma. I was so little.", "We used to make cookies."}, () => {
-                    Play("RM_StoryTap", .35f);
-                    showPhoto = false;
-                    chapter = Chapter.MeetGrandma;
-                    Enter(Room.Kitchen);
-                    PlayMusic("RM_StoryKeepsake");
-                    Say("Grandma", Expression.Warm, new[] {"Gracie? There you are. Come help me, sweetheart."},
-                        () => Say("Grace", Expression.Surprise, new[] {"Grandma?", "You're here! Can you come home with me?"},
-                        () => Say("Grandma", Expression.Warm, new[] {"After the cookies, dear. Your dad's waiting."},
-                        () => Say("Grace", Expression.Warm, new[] {"Okay. I'll help you."}))));
+                Say("Grace", Expression.Reflective, new[] {"That's me. And Grandma.", "We used to make cookies together."}, () => {
+                    Play("RM_Chime", .26f);
+                    Say("Grandma", Expression.Warm, new[] {"Gracie?"}, () =>
+                        PauseBeat(.9f, EnterKitchenMemory, amount => memoryFade = amount));
                 });
+            });
+        }
+
+        void EnterKitchenMemory()
+        {
+            showPhoto = false;
+            chapter = Chapter.MeetGrandma;
+            Enter(Room.Kitchen);
+            PlayMusic("RM_StoryKeepsake");
+            grace.View.Look(World(grandma.Feet - grace.Feet));
+            PauseBeat(2.9f, () => Say("Grace", Expression.Surprise, new[] {"Grandma?"},
+                () => Say("Grandma", Expression.Warm, new[] {"There you are, sweetheart."}, ContinueReunion)),
+                amount => memoryFade = 1f - Mathf.Clamp01(amount * 2.9f / .9f));
+        }
+
+        void ContinueReunion()
+        {
+            Say("Grace", Expression.Quiet, new[] {"Can you come home with me?"}, () =>
+                Say("Grandma", Expression.Warm, new[] {"After the cookies, dear.", "Your dad always liked these.",
+                    "We'll take some to him in the living room."}, () =>
+                Say("Grace", Expression.Quiet, new[] {"Then we can go together?"}, () =>
+                Say("Grandma", Expression.Warm, new[] {"Of course. Will you help me?"}, () =>
+                Say("Grace", Expression.Warm, new[] {"Then I'll help."}, ApproachGrandma)))));
+        }
+
+        void ApproachGrandma()
+        {
+            Vector2 start = grace.Feet;
+            Vector2 destination = new Vector2(585, 455);
+            PauseBeat(1.6f, HelpGrandma, amount => {
+                motor.MoveScripted(World(Vector2.Lerp(start, destination, amount)));
+                var feet = motor.Body.position * Ppu;
+                grace.Feet = new Vector2(feet.x, -feet.y);
             });
         }
 
@@ -799,6 +861,9 @@ namespace RememberMe
             if ((ingredients & FlourBit) != 0) { Say("Grace", new[] {"I already have the flour."}); return; }
             ingredients |= FlourBit;
             Play("RM_StoryTap", .19f);
+            if (chapter == Chapter.Ingredients && !flourSetOut)
+                Say("Grace", new[] {"Found the flour."}, () =>
+                    Say("Grandma", Expression.Warm, new[] {"Bring it to the recipe book, sweetheart."}));
         }
 
         void Fridge()
@@ -867,9 +932,12 @@ namespace RememberMe
         {
             if (chapter <= Chapter.Ingredients)
             {
-                Offer("The old recipe book", new[] {"Read Dad's note", "Set out the ingredients"}, i => {
+                Offer("The old recipe book", new[] {"Read Dad's note",
+                    chapter == Chapter.Ingredients && !flourSetOut && (ingredients & FlourBit) != 0 ?
+                        "Set out the flour" : "Set out the ingredients"}, i => {
                     if (i == 0) ReadDadNote();
                     else if (chapter == Chapter.MeetGrandma) AskGrandmaFirst();
+                    else if (!flourSetOut && (ingredients & FlourBit) != 0) SetOutFlour();
                     else if (ingredients != AllIngredients) Say("Grace", new[] {"I can bring the ingredients back here once I have them."});
                     else {
                         chapter = Chapter.Cards;
@@ -878,7 +946,7 @@ namespace RememberMe
                             () => Say("Grace", Expression.Surprise, new[] {"Dad?"}, () =>
                             Say("Grandma", Expression.Reflective, new[] {"Just a little. He thought I never noticed.",
                                 "Now, let's see. What comes next? This part is hard to read.",
-                                "Your dad left three picture cards: by the bowl, on the baking counter, and on the fridge. Bring them to the recipe."},
+                                "Your dad drew some pictures for me. They must be around here somewhere."},
                             () => Say("Grace", Expression.Concern, new[] {"Grandma? Did the lights just…", "Never mind."}))));
                     }
                 });
@@ -900,6 +968,19 @@ namespace RememberMe
                 Offer(chapter == Chapter.Cards ? "Three steps are missing" : "The family recipe",
                     new[] {"Close the recipe", "Read Dad's note"}, i => { if (i == 1) ReadDadNote(); });
             }
+        }
+
+        void SetOutFlour()
+        {
+            flourSetOut = true;
+            Play("RM_StoryTap", .19f);
+            Say("Grace", new[] {"I'll put the flour here."}, () =>
+                Say("Grandma", Expression.Warm, new[] {"Thank you, Gracie."}, () => {
+                    if (ingredients == AllIngredients)
+                        Say("Grace", new[] {"I've got everything else, too.", "We can set it all out by the recipe."});
+                    else Say("Grandma", Expression.Warm, new[] {"We'll need butter, eggs and sugar, too.",
+                        "Try the fridge for the butter and eggs."});
+                }));
         }
 
         void SortCards()
@@ -1042,7 +1123,7 @@ namespace RememberMe
         {
             if (chapter <= Chapter.Tray)
             {
-                Say("Grace", new[] { "We promised Dad cookies. We still have work to do." });
+                Say("Grace", new[] { "I'll finish the cookies with Grandma first." });
                 return;
             }
             if (!looped)
@@ -1053,7 +1134,7 @@ namespace RememberMe
                 Play("RM_Swell", .54f);
                 Say("Grace", Expression.Concern, new[] {"Grandma? Something's wrong."}, () =>
                     Say("Grandma", Expression.Concern, new[] {"Where's the living room?"}, () =>
-                    Say("Grace", new[] {"It's right there."}, () =>
+                    Say("Grace", new[] {"It's right there. Wait here. I'll have a look."}, () =>
                     {
                         Play("RM_DoorCreak", .52f);
                         Enter(Room.Kitchen, new Vector2(485, 616));
@@ -1152,11 +1233,11 @@ namespace RememberMe
             Enter(Room.Parlor, new Vector2(576, 601));
             decay = 0;
             roomMaterial.SetFloat("_Decay", 0);
-            Say("Grace", new[]
-            {
-                photoSeen ? "Like the blue curtains in Dad’s picture!" : "Blue curtains. There’s an empty chair by the window.",
-                "Grandma? … Where is she? I should go back for her."
-            }, () => Enter(Room.Hall, new Vector2(576, 410)));
+            Say("Grace", new[] {photoSeen ? "Like the blue curtains in Dad’s picture!" : "Blue curtains. There’s an empty chair by the window."},
+                () => PauseBeat(.7f, () => {
+                    grace.View.Look(Vector2.down);
+                    Say("Grace", Expression.Concern, new[] {"Grandma?", "She's still waiting in the kitchen. I'll go back for her."});
+                }));
         }
 
         void HelpGrandma()
@@ -1164,11 +1245,14 @@ namespace RememberMe
             if (chapter == Chapter.MeetGrandma)
             {
                 chapter = Chapter.Ingredients;
-                Say("Grandma", Expression.Warm, new[] {"Could you get the flour, butter, eggs, and sugar?",
-                    "I put them away somewhere."}, () => Say("Grace", Expression.Warm, new[] {"Okay!"}));
+                Say("Grandma", Expression.Warm, new[] {"Let's start with the flour.",
+                    "It's in the cupboard on the left.", "Bring it here, beside the recipe book."});
                 return;
             }
-            if (chapter == Chapter.Ingredients) { Say("Grandma", new[] {"Could you get the flour, butter, eggs, and sugar?"}); return; }
+            if (chapter == Chapter.Ingredients) { Say("Grandma", new[] {
+                !flourSetOut ? (ingredients & FlourBit) == 0 ? "The flour is in the cupboard on the left." :
+                    "Bring the flour to the recipe book, sweetheart." : ingredients == AllIngredients ?
+                    "Let's set everything out beside the recipe book." : "We still need butter, eggs and sugar. Check the fridge and the jars."}); return; }
             if (chapter == Chapter.Cards || chapter == Chapter.Baking) { Say("Grandma", new[] {"Let's look at the pictures on the counter together."}); return; }
             if (chapter != Chapter.ReturnForGrandma)
             {
@@ -1263,7 +1347,7 @@ namespace RememberMe
         void LateUpdate()
         {
             PositionTray();
-            bool exploring = bedroomArrival == 0 && lines == null && choices == null &&
+            bool exploring = bedroomArrival == 0 && !WaitingForBeat && lines == null && choices == null &&
                 !mixing && !shaping && chapter != Chapter.Ending;
             hud.ShowHUD(exploring);
             if (exploring)
@@ -1282,6 +1366,18 @@ namespace RememberMe
             var callback = afterDialogue;
             afterDialogue = null;
             callback?.Invoke();
+        }
+
+        void PauseBeat(float seconds, Action next, Action<float> during = null)
+        {
+            hud.HideDialogue();
+            hud.ShowHUD(false);
+            motor.CanMove = false;
+            motor.SetInput(Vector2.zero, false, false);
+            beatTime = seconds;
+            beatDuration = seconds;
+            duringBeat = during;
+            afterBeat = next;
         }
 
         void Play(string name, float volume) =>
@@ -1335,6 +1431,8 @@ namespace RememberMe
                 case Chapter.Bedroom: return "Check the sound beside the bed.";
                 case Chapter.MeetGrandma: return "Ask Grandma how you can help.";
                 case Chapter.Ingredients:
+                    if (!flourSetOut) return (ingredients & FlourBit) == 0 ?
+                        "Help Grandma: find flour in the left cupboard." : "Bring the flour to the recipe book.";
                     return ingredients == AllIngredients ? "Bring the ingredients to the recipe." : "Gather the ingredients.";
                 case Chapter.Cards: return cards == AllCards ? "Put Dad’s cards in order at the recipe." :
                     $"Cards {CountFinds(cards)}/3 · " + ((cards & 1) == 0 ? "Check beside the bowl." :
@@ -1344,6 +1442,7 @@ namespace RememberMe
                 case Chapter.FirstCollapse: return "Bring the cookies to the living room.";
                 case Chapter.FindDoor: return currentRoom == Room.Kitchen ? "Try the doorway again." : "Find the living room.";
                 case Chapter.ReturnForGrandma:
+                    if (currentRoom == Room.Parlor) return "Go back through the doorway for Grandma.";
                     if (currentRoom == Room.Hall) return "Return to the kitchen for Grandma.";
                     return "Offer Grandma your hand.";
                 case Chapter.Escort:

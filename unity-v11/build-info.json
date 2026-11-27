@@ -1,0 +1,33 @@
+{
+  "version": "v11",
+  "status": "prepared-for-team-review",
+  "published": false,
+  "engine": "6000.6.1f1",
+  "packagedFromBuildCommit": "1da4081",
+  "originalBuildTime": "2026-11-27T02:37:30.2615330Z",
+  "buildRevision": "v11-narrative-20261127",
+  "sourceFiles": {
+    "RememberMeUnity/Assets/Scripts/Act1Game.cs": "3c22f2f0c90782763faffccc9b8dd94ea53d1ab18dd3080acd33e2c620435849",
+    "RememberMeUnity/Assets/Scripts/KitchenPrototype.cs": "f6afac950abad75d0a9a1aece0f1ad4bb1c06dd6d4b428a788a83b58a4ec2fce",
+    "RememberMeUnity/Assets/Scripts/KitchenPresentation.cs": "a8ac6998f5365bdaea56499743c1771c660ed031c76d1e249ab18cc4e3556aba",
+    "RememberMeUnity/Assets/Scripts/KitchenRouteCheck.cs": "594c226353c0f15d6a010ac9137ea2ff336db6a9fd0ab103366714975ebd25a9",
+    "RememberMeUnity/Assets/Scripts/KitchenInventory.cs": "883d3a51fafdfa1e729f0578509414c63ad01ff61334e1430ec2323233ce3e0c",
+    "RememberMeUnity/Assets/Scripts/KitchenCanvas.cs": "8fb2522fec62d63e092744157e4118e525992e3152d568186575c54c9861f758"
+  },
+  "webTemplateSha256": "9f4803ad6ff640999b59958da3430f3bcec9e8de68b76a43840dbea1eaa792a2",
+  "artifacts": {
+    "Build/docs.data.unityweb": "d6b62a6874e2fc5fd830a8f16dbbe35199de2311e17f1071d7626907f5ff925b",
+    "Build/docs.framework.js.unityweb": "d97e22af866f0737145dfe72108469da35419561a5982b24fd93802c0d799f36",
+    "Build/docs.loader.js": "ea9ce304ed0d52de37ed5eb1b8843aeece6e936abfc83573d21581c5e3f6ee99",
+    "Build/docs.wasm.unityweb": "b2f3a133c33d43ee818012ba5ed62e97692ec20c1d47d1b9ab0ed662df363f3d"
+  },
+  "verification": {
+    "manualTrialFeedback": "User accepted Act I pacing and improved Act II opening",
+    "automatedRuntime": "pending",
+    "publicV11": "pending",
+    "staticIntegrity": "passed",
+    "windowsReferenceCompilation": "passed, existing serialized-field warnings",
+    "webglReferenceCompilation": "passed"
+  },
+  "notes": "Binary assets reused byte-for-byte from the user-built and played iteration 2; integrated runtime sources match all six recorded build hashes. Entry template rebranded for the team."
+}
