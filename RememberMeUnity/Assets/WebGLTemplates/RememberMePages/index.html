@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#12201c">
-  <title>Remember Me</title>
+  <title>Remember Me — v11</title>
   <style>
     :root { color-scheme: dark; background: #111a17; color: #f4ead6; }
     * { box-sizing: border-box; }
@@ -31,8 +31,8 @@
 <body>
   <main>
     <header>
-      <h1>Remember Me</h1>
-      <a href="https://github.com/jeddakholmes-byte/RememberGame/issues/new?title=Playtest%20feedback%20-%20Web%20v10&amp;body=Version%20v10%20%282026-11-25%29%0A%0AScene%20and%20steps%0A%0AExpected%20result%0A%0AActual%20result%0A%0ABrowser%20and%20device%0A" target="_blank" rel="noopener" style="color:#ebcf94;margin-left:auto;margin-right:110px">反馈 / Feedback</a>
+      <h1>Remember Me — v11</h1>
+      <a href="https://github.com/jeddakholmes-byte/RememberGame/issues/new?title=Playtest%20feedback%20-%20Web%20v11&amp;body=Version%20v11%20%282026-11-27%29%0A%0AScene%20and%20steps%0A%0AExpected%20result%0A%0AActual%20result%0A%0ABrowser%20and%20device%0A" target="_blank" rel="noopener" style="color:#ebcf94;margin-left:auto;margin-right:110px">反馈 / Feedback</a>
     </header>
     <div id="stage">
       <canvas id="unity-canvas" tabindex="0" aria-label="Remember Me game"></canvas>
@@ -76,6 +76,7 @@
         }
       });
     }
+    const buildRevision = 'v11-narrative-20261127';
     const config = {
       dataUrl: 'Build/{{{ DATA_FILENAME }}}',
       frameworkUrl: 'Build/{{{ FRAMEWORK_FILENAME }}}',
@@ -87,8 +88,11 @@
       devicePixelRatio: Math.min(window.devicePixelRatio || 1, 2)
     };
 
+    for (const key of ['dataUrl', 'frameworkUrl', 'codeUrl'])
+      config[key] += `?build=${encodeURIComponent(buildRevision)}`;
     const loader = document.createElement('script');
     loader.src = 'Build/{{{ LOADER_FILENAME }}}';
+    loader.src += `?build=${encodeURIComponent(buildRevision)}`;
     loader.onerror = () => { loading.textContent = 'The game could not load. Refresh this page to try again.'; };
     loader.onload = () => {
       createUnityInstance(canvas, config, (progress) => {
@@ -97,7 +101,8 @@
         loading.hidden = true;
         canvas.focus({ preventScroll: true });
       }).catch((error) => {
-        loading.textContent = 'The game could not start. Try a desktop browser with WebGL enabled.';
+        loading.style.whiteSpace = 'pre-wrap';
+        loading.textContent = `The game could not start.\n${String(error)}\nBuild: ${buildRevision}`;
         console.error(error);
       });
     };

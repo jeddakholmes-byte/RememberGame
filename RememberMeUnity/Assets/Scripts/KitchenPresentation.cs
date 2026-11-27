@@ -29,7 +29,7 @@ namespace RememberMe
                 return new Vector2(point.x - stage.x, Screen.height - point.y - stage.y) / scale;
             }
 
-            if (bedroomArrival == 0 && lines == null && choices == null && !mixing && !shaping && chapter < Chapter.Ending)
+            if (bedroomArrival == 0 && !WaitingForBeat && lines == null && choices == null && !mixing && !shaping && chapter < Chapter.Ending)
             {
                 DrawGuidance(WorldUI);
                 if (currentRoom == Room.Hall && photoSeen) DrawClueReminder();
@@ -48,6 +48,7 @@ namespace RememberMe
 
             GUI.matrix = matrix;
             if (transition > 0) Tint(wholeScreen, new Color(.025f, .035f, .044f, transition / .45f));
+            if (memoryFade > 0) Tint(wholeScreen, new Color(.025f, .035f, .044f, memoryFade));
         }
 
         void DrawGuidance(System.Func<Vector2, Vector2> worldUI)
@@ -90,6 +91,14 @@ namespace RememberMe
             if (target == grandmaTarget && (chapter == Chapter.MeetGrandma || chapter == Chapter.ReturnForGrandma)) return "Grandma";
             if (chapter == Chapter.Ingredients)
             {
+                if (!flourSetOut)
+                {
+                    if (x == 177 && (ingredients & FlourBit) == 0) return "Flour";
+                    if (x == 585 && (ingredients & FlourBit) != 0) return "Set out flour";
+                    required = false;
+                    // Other ingredients remain usable; only the first task is highlighted.
+                    return null;
+                }
                 if (x == 177 && (ingredients & FlourBit) == 0) return "Flour";
                 if (x == 330 && (ingredients & SugarBit) == 0) return "Jars";
                 if (x == 761 && (ingredients & EggsBit) == 0) return "Butter & eggs";

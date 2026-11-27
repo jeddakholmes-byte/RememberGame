@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#12201c">
+  <title>Remember Me — v11</title>
+  <style>
+    :root { color-scheme: dark; background: #111a17; color: #f4ead6; }
+    * { box-sizing: border-box; }
+    body { margin: 0; min-height: 100dvh; display: grid; place-content: center; font-family: Georgia, serif; padding: 12px; }
+    main { width: min(1280px, calc(100vw - 24px), max(320px, (100dvh - 72px) * 1.6)); }
+    header { display: flex; align-items: center; min-height: 36px; margin-bottom: 8px; }
+    h1 { margin: 0; font-size: 1.25rem; font-weight: 400; }
+    canvas:focus-visible { outline: 2px solid #ebcf94; outline-offset: 2px; }
+    #stage { position: relative; aspect-ratio: 8 / 5; background: #18231e; border: 1px solid #78664e; }
+    canvas { display: block; width: 100%; height: 100%; }
+    #loading { position: absolute; inset: 0; display: grid; place-items: center; background: #18231e; padding: 16px; text-align: center; }
+    #loading[hidden] { display: none; }
+    #stage:fullscreen { width: 100%; height: 100%; aspect-ratio: auto; border: 0; }
+    #stage:-webkit-full-screen { width: 100%; height: 100%; aspect-ratio: auto; border: 0; }
+    #fullscreen { position: absolute; z-index: 1; right: 0; bottom: calc(100% + 8px);
+      min-height: 36px; padding: 4px 12px; border: 1px solid #78664e; border-radius: 4px;
+      color: #f4ead6; background: #18231e; font: .8rem system-ui, sans-serif; cursor: pointer; }
+    #fullscreen:hover, #fullscreen:focus-visible { border-color: #ebcf94; }
+    #fullscreen[aria-pressed="true"] { right: 14px; top: 14px; bottom: auto; }
+    #fullscreen-status { position: absolute; z-index: 1; right: 12px; top: 12px;
+      max-width: calc(100% - 24px); margin: 0; padding: 8px 12px; background: #18231e; }
+  </style>
+</head>
+<body>
+  <main>
+    <header>
+      <h1>Remember Me — v11</h1>
+      <a href="https://github.com/jeddakholmes-byte/RememberGame/issues/new?title=Playtest%20feedback%20-%20Web%20v11&amp;body=Version%20v11%20%282026-11-27%29%0A%0AScene%20and%20steps%0A%0AExpected%20result%0A%0AActual%20result%0A%0ABrowser%20and%20device%0A" target="_blank" rel="noopener" style="color:#ebcf94;margin-left:auto;margin-right:110px">反馈 / Feedback</a>
+    </header>
+    <div id="stage">
+      <canvas id="unity-canvas" tabindex="0" aria-label="Remember Me game"></canvas>
+      <div id="loading" role="status" aria-live="polite">Loading Remember Me…</div>
+      <button id="fullscreen" type="button" aria-controls="stage" aria-pressed="false" hidden>Fullscreen</button>
+      <p id="fullscreen-status" role="status" hidden></p>
+    </div>
+  </main>
+  <script>
+    const canvas = document.querySelector('#unity-canvas');
+    const loading = document.querySelector('#loading');
+    const stage = document.querySelector('#stage');
+    const fullscreen = document.querySelector('#fullscreen');
+    const fullscreenStatus = document.querySelector('#fullscreen-status');
+    const enterFullscreen = stage.requestFullscreen || stage.webkitRequestFullscreen;
+    const exitFullscreen = document.exitFullscreen || document.webkitExitFullscreen;
+    const fullscreenElement = () => document.fullscreenElement || document.webkitFullscreenElement;
+    const refreshFullscreen = () => {
+      const active = fullscreenElement() === stage;
+      fullscreen.setAttribute('aria-pressed', String(active));
+      fullscreen.textContent = active ? 'Exit fullscreen' : 'Fullscreen';
+      fullscreenStatus.hidden = true;
+      if (loading.hidden) canvas.focus({ preventScroll: true });
+    };
+    const reportFullscreenError = () => {
+      fullscreenStatus.textContent = 'This window could not open fullscreen.';
+      fullscreenStatus.hidden = false;
+    };
+    fullscreen.hidden = !(enterFullscreen && exitFullscreen);
+    if (!fullscreen.hidden) {
+      document.addEventListener('fullscreenchange', refreshFullscreen);
+      document.addEventListener('webkitfullscreenchange', refreshFullscreen);
+      document.addEventListener('fullscreenerror', reportFullscreenError);
+      fullscreen.addEventListener('click', async () => {
+        fullscreenStatus.hidden = true;
+        try {
+          if (fullscreenElement() === stage) await exitFullscreen.call(document);
+          else await enterFullscreen.call(stage);
+        } catch {
+          reportFullscreenError();
+        }
+      });
+    }
+    const buildRevision = 'v11-narrative-20261127';
+    const config = {
+      dataUrl: 'Build/docs.data.unityweb',
+      frameworkUrl: 'Build/docs.framework.js.unityweb',
+      codeUrl: 'Build/docs.wasm.unityweb',
+      streamingAssetsUrl: 'StreamingAssets',
+      companyName: "Remember Me Team",
+      productName: "Remember Me",
+      productVersion: "1.0",
+      devicePixelRatio: Math.min(window.devicePixelRatio || 1, 2)
+    };
+
+    for (const key of ['dataUrl', 'frameworkUrl', 'codeUrl'])
+      config[key] += `?build=${encodeURIComponent(buildRevision)}`;
+    const loader = document.createElement('script');
+    loader.src = 'Build/docs.loader.js';
+    loader.src += `?build=${encodeURIComponent(buildRevision)}`;
+    loader.onerror = () => { loading.textContent = 'The game could not load. Refresh this page to try again.'; };
+    loader.onload = () => {
+      createUnityInstance(canvas, config, (progress) => {
+        loading.textContent = `Loading Remember Me… ${Math.round(100 * progress)}%`;
+      }).then(() => {
+        loading.hidden = true;
+        canvas.focus({ preventScroll: true });
+      }).catch((error) => {
+        loading.style.whiteSpace = 'pre-wrap';
+        loading.textContent = `The game could not start.\n${String(error)}\nBuild: ${buildRevision}`;
+        console.error(error);
+      });
+    };
+    canvas.addEventListener('pointerdown', () => canvas.focus({ preventScroll: true }));
+    document.body.append(loader);
+  </script>
+</body>
+</html>
